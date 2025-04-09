@@ -65,7 +65,7 @@ const AdBanner: React.FC<AdBannerProps> = ({
       <Script
         id="adsbygoogle-init"
         strategy="afterInteractive"
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXX"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6951210541539723"
         crossOrigin="anonymous"
       />
       
@@ -75,8 +75,8 @@ const AdBanner: React.FC<AdBannerProps> = ({
           <ins
             className="adsbygoogle"
             style={{ display: 'block' }}
-            data-ad-client="ca-pub-XXXXXXXXXXXXX"
-            data-ad-slot="XXXXXXXXXX"
+            data-ad-client="ca-pub-6951210541539723"
+            data-ad-slot="8994204485"
             data-ad-format={getAdSize().format}
             data-full-width-responsive="true"
           ></ins>
