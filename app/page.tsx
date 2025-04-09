@@ -7,10 +7,10 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-indigo-600 dark:text-indigo-400 mb-4">
-            포켓몬 MBTI 테스트
+            애니메이션 MBTI 테스트
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            나는 어떤 포켓몬과 닮았을까? 재미있는 MBTI 테스트로 알아보세요!
+            나는 어떤 애니메이션 캐릭터와 닮았을까? 재미있는 MBTI 테스트로 알아보세요!
           </p>
         </header>
         
@@ -31,10 +31,10 @@ export default function Home() {
                 </div>
                 <div className="p-4">
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-                    MBTI 포켓몬 성격 유형 검사
+                    MBTI 애니메이션 캐릭터 검사
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-3">
-                    16가지 성격 유형 중 당신은 어떤 포켓몬과 닮았는지 알아보세요.
+                    16가지 성격 유형 중 당신은 어떤 애니메이션 캐릭터와 닮았는지 알아보세요.
                   </p>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-indigo-600 dark:text-indigo-400">
