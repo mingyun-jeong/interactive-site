@@ -2,9 +2,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 export const metadata = {
-  title: '인터랙티브 테스트 - 나를 발견하는 재미있는 테스트',
-  description: 'MBTI, 연애 성향, IQ 등 다양한 재미있는 테스트로 나에 대해 알아보세요.',
-  keywords: 'MBTI, 테스트, 퀴즈, 성격 유형, 심리 테스트, 연애 테스트',
+  title: '포켓몬 MBTI 테스트 - 나와 닮은 포켓몬은?',
+  description: 'MBTI 성격 유형으로 나와 닮은 포켓몬을 찾아보세요. 16가지 성격 유형별 포켓몬 매칭 테스트!',
+  keywords: 'MBTI, 포켓몬, 테스트, 퀴즈, 성격 유형, 피카츄, 파이리, 리자몽, 뮤츠',
 };
 
 export const viewport = {
