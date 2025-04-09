@@ -1,27 +1,32 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useRef } from 'react';
+import Script from 'next/script';
 
 type AdBannerProps = {
   type?: 'horizontal' | 'vertical' | 'square';
   position?: 'top' | 'bottom' | 'inline';
+  className?: string;
 };
 
 const AdBanner: React.FC<AdBannerProps> = ({ 
   type = 'horizontal', 
-  position = 'inline' 
+  position = 'inline',
+  className = ''
 }) => {
-  // 실제 광고 통합 전 임시 배너
-  const getBannerClass = () => {
-    const baseClasses = "bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-md overflow-hidden flex flex-col items-center justify-center text-center";
-    
+  const adRef = useRef<HTMLDivElement>(null);
+  
+  // 광고 타입에 따른 Google AdSense 광고 사이즈 설정
+  const getAdSize = () => {
     switch (type) {
       case 'horizontal':
-        return `${baseClasses} w-full h-24 md:h-28`;
+        return { width: '728', height: '90', format: 'auto' }; // 리스폰시브 광고
       case 'vertical':
-        return `${baseClasses} w-full md:w-64 h-80`;
+        return { width: '300', height: '600', format: 'auto' };
       case 'square':
-        return `${baseClasses} w-full md:w-80 h-64 md:h-80`;
+        return { width: '336', height: '280', format: 'auto' };
       default:
-        return `${baseClasses} w-full h-24 md:h-28`;
+        return { width: '728', height: '90', format: 'auto' };
     }
   };
 
@@ -34,44 +39,69 @@ const AdBanner: React.FC<AdBannerProps> = ({
         return 'mt-6';
       case 'inline':
       default:
-        return 'my-4';
+        return 'my-6';
     }
   };
 
-  // 광고 타입에 따른 다른 메시지 (실제 광고 통합 전)
-  const getAdContent = () => {
-    const contents = [
-      { title: '연애 성향 테스트', desc: '출시 예정' },
-      { title: 'IQ 테스트', desc: '곧 만나보세요' },
-      { title: '직업 적성 검사', desc: '개발 중' },
-      { title: '스트레스 지수 테스트', desc: '준비 중' },
-    ];
+  // 실제 광고가 로드되기 전 보여줄 플레이스홀더
+  const getPlaceholderClass = () => {
+    const baseClasses = "bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden flex flex-col items-center justify-center text-center animate-pulse";
     
-    // 랜덤 콘텐츠 선택
-    const randomContent = contents[Math.floor(Math.random() * contents.length)];
-    
-    return (
-      <>
-        <p className="text-gray-400 dark:text-gray-500 text-xs mb-1">광고</p>
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-          {randomContent.title}
-        </h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
-          {randomContent.desc}
-        </p>
-        {type !== 'horizontal' && (
-          <button className="mt-4 px-4 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 rounded-full text-sm">
-            알림 신청
-          </button>
-        )}
-      </>
-    );
+    switch (type) {
+      case 'horizontal':
+        return `${baseClasses} w-full h-24 md:h-28`;
+      case 'vertical':
+        return `${baseClasses} w-64 h-[600px]`;
+      case 'square':
+        return `${baseClasses} w-full max-w-[336px] h-[280px]`;
+      default:
+        return `${baseClasses} w-full h-24 md:h-28`;
+    }
   };
 
   return (
-    <div className={`${getBannerClass()} ${getPositionClass()} relative`}>
-      {getAdContent()}
-    </div>
+    <>
+      {/* Google AdSense 스크립트 */}
+      <Script
+        id="adsbygoogle-init"
+        strategy="afterInteractive"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXX"
+        crossOrigin="anonymous"
+      />
+      
+      <div className={`${getPositionClass()} ${className} overflow-hidden flex justify-center`}>
+        {/* 실제 AdSense 광고 */}
+        <div ref={adRef} className={getPlaceholderClass()}>
+          <ins
+            className="adsbygoogle"
+            style={{ display: 'block' }}
+            data-ad-client="ca-pub-XXXXXXXXXXXXX"
+            data-ad-slot="XXXXXXXXXX"
+            data-ad-format={getAdSize().format}
+            data-full-width-responsive="true"
+          ></ins>
+          
+          {/* 광고가 로드되기 전 보여줄 텍스트 */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <p className="text-slate-400 dark:text-slate-500 text-xs mb-1">광고 로드 중...</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              {type === 'horizontal' ? '728x90' : type === 'vertical' ? '300x600' : '336x280'}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* 광고 초기화 스크립트 */}
+      <Script id="ad-init" strategy="afterInteractive">
+        {`
+          try {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          } catch (error) {
+            console.error('AdSense error:', error);
+          }
+        `}
+      </Script>
+    </>
   );
 };
 
