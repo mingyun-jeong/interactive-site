@@ -14,112 +14,112 @@ import AdBanner from '@/app/components/AdBanner';
 const mbtiData = {
   ISTJ: {
     name: "코난 (명탐정 코난)",
-    image: "https://i.imgur.com/D1poTuW.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/conan.png",
     description: "논리적이고 철저하며 책임감이 강한 당신은 문제 해결과 규칙 준수를 중요시합니다. 코난처럼 세부 사항을 놓치지 않고 끈기 있게 사건을 해결하는 능력이 있습니다.",
     traits: ["책임감", "논리적", "조직적", "철저함", "현실적"],
     match: "ESFP (료코)"
   },
   ISFJ: {
     name: "히나타 쇼요 (하이큐!!)",
-    image: "https://i.imgur.com/0I5qXct.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/hinata.png",
     description: "충성스럽고 헌신적인 당신은 남을 돕는 것에서 큰 보람을 느낍니다. 히나타처럼 팀을 위해 최선을 다하고, 끊임없이 성장하려는 의지가 있습니다.",
     traits: ["충성심", "배려심", "헌신적", "온화함", "보호본능"],
     match: "ENTP (오이카와 토오루)"
   },
   INFJ: {
     name: "루피 (원피스)",
-    image: "https://i.imgur.com/Z5hWCcx.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/luffy.png",
     description: "이상주의적이고 통찰력이 뛰어난 당신은 높은 도덕적 기준을 가지고 있습니다. 루피처럼 강한 직관과 리더십으로 주변 사람들에게 영감을 줍니다.",
     traits: ["통찰력", "이상주의", "창의성", "헌신", "확고한 신념"],
     match: "ESTP (조로)"
   },
   INTJ: {
     name: "L (데스노트)",
-    image: "https://i.imgur.com/9ySzFGW.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/l.png",
     description: "전략적이고 독립적인 당신은 문제를 창의적으로 해결하는 능력이 뛰어납니다. L처럼 뛰어난 분석력과 논리력으로 복잡한 상황을 명쾌하게 풀어냅니다.",
     traits: ["전략적", "독립적", "분석적", "목표지향적", "통찰력"],
     match: "ENFP (마이트 가이)"
   },
   ISTP: {
     name: "레비 (진격의 거인)",
-    image: "https://i.imgur.com/PxSUGcl.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/levi.png",
     description: "분석적이고 실용적인 당신은 신속하게 문제를 해결하는 능력이 있습니다. 레비처럼 침착하게 위기 상황을 극복하고 효율적으로 행동합니다.",
     traits: ["현실적", "논리적", "침착함", "적응력", "독립적"],
     match: "ENFJ (에렌 예거)"
   },
   ISFP: {
     name: "미도리야 이즈쿠 (나의 히어로 아카데미아)",
-    image: "https://i.imgur.com/9nC3rVL.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/midoriya.png",
     description: "온화하고 감성적인 당신은 강한 개인적 가치관을 가지고 있습니다. 미도리야처럼 겸손하면서도 타인을 위해 자신을 희생할 줄 아는 용기가 있습니다.",
     traits: ["예술적", "개인주의", "충성심", "적응력", "감성적"],
     match: "ENTJ (바쿠고 카츠키)"
   },
   INFP: {
     name: "알폰스 엘릭 (강철의 연금술사)",
-    image: "https://i.imgur.com/D1MV6Z8.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/alphonse.png",
     description: "이상주의적이고 공감능력이 뛰어난 당신은 다른 사람들의 잠재력을 발견하는 데 능숙합니다. 알폰스처럼 순수한 마음과 깊은 공감능력으로 주변 사람들에게 긍정적인 영향을 줍니다.",
     traits: ["이상주의", "공감능력", "창의성", "호기심", "충성심"],
     match: "ESTJ (로이 머스탱)"
   },
   INTP: {
     name: "키라기리 쿄코 (단간론파)",
-    image: "https://i.imgur.com/HtMhvZ3.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/kirigiri.png",
     description: "논리적이고 창의적인 당신은 복잡한 문제를 해결하는 데 뛰어납니다. 키라기리처럼 뛰어난 분석력과 객관적인 시각으로 진실을 찾아내는 능력이 있습니다.",
     traits: ["분석적", "논리적", "창의적", "호기심", "독립적"],
     match: "ESFJ (아오이 아사히나)"
   },
   ESTP: {
     name: "조로 (원피스)",
-    image: "https://i.imgur.com/vX7IIkE.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/zoro.png",
     description: "모험을 즐기고 행동적인 당신은 문제를 실용적으로 해결합니다. 조로처럼 위험을 두려워하지 않고 직접적인 방식으로 도전을 극복합니다.",
     traits: ["행동적", "현실적", "적응력", "관찰력", "효율적"],
     match: "INFJ (루피)"
   },
   ESFP: {
     name: "료코 (킬라킬)",
-    image: "https://i.imgur.com/2M5OFtT.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/ryuko.png",
     description: "열정적이고 즉흥적인 당신은 삶을 즐기고 타인에게 에너지를 전달합니다. 료코처럼 자유로운 영혼과 강한 의지력으로 자신의 신념을 따릅니다.",
     traits: ["열정적", "사교적", "즉흥적", "실용적", "적응력"],
     match: "ISTJ (코난)"
   },
   ENFP: {
     name: "마이트 가이 (나루토)",
-    image: "https://i.imgur.com/KDXbPFN.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/mightguy.png",
     description: "열정적이고 창의적인 당신은 새로운 가능성을 찾는 것을 좋아합니다. 마이트 가이처럼 넘치는 에너지와 긍정적인 태도로 주변 사람들에게 영감을 줍니다.",
     traits: ["열정적", "창의적", "공감능력", "적응력", "호기심"],
     match: "INTJ (L)"
   },
   ENTP: {
     name: "오이카와 토오루 (하이큐!!)",
-    image: "https://i.imgur.com/RTz6BNE.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/oikawa.png",
     description: "창의적이고 지적 호기심이 강한 당신은 논쟁과 새로운 아이디어를 즐깁니다. 오이카와처럼 뛰어난 관찰력과 적응력으로 상황을 유리하게 이끌어 갑니다.",
     traits: ["창의적", "논쟁적", "지적 호기심", "적응력", "혁신적"],
     match: "ISFJ (히나타 쇼요)"
   },
   ESTJ: {
     name: "로이 머스탱 (강철의 연금술사)",
-    image: "https://i.imgur.com/1VhLwer.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/roy.png",
     description: "체계적이고 책임감이 강한 당신은 효율적으로 목표를 달성합니다. 로이처럼 명확한 비전과 리더십으로 팀을 성공으로 이끄는 능력이 있습니다.",
     traits: ["조직적", "실용적", "논리적", "책임감", "결단력"],
     match: "INFP (알폰스 엘릭)"
   },
   ESFJ: {
     name: "아오이 아사히나 (단간론파)",
-    image: "https://i.imgur.com/c15B4HS.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/aoi.png",
     description: "따뜻하고 협력적인 당신은 다른 사람들의 필요를 잘 챙기는 능력이 있습니다. 아오이처럼 조화와 화합을 중요시하며 주변 사람들에게 안정감을 줍니다.",
     traits: ["사교적", "협력적", "배려심", "책임감", "실용적"],
     match: "INTP (키라기리 쿄코)"
   },
   ENFJ: {
     name: "에렌 예거 (진격의 거인)",
-    image: "https://i.imgur.com/vjtvxsK.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/eren.png",
     description: "카리스마 있고 영감을 주는 당신은 사람들을 이끌고 동기부여하는 능력이 있습니다. 에렌처럼 강한 신념과 열정으로 목표를 향해 나아가며 타인에게 영향력을 발휘합니다.",
     traits: ["카리스마", "이상주의", "공감능력", "설득력", "책임감"],
     match: "ISTP (레비)"
   },
   ENTJ: {
     name: "바쿠고 카츠키 (나의 히어로 아카데미아)",
-    image: "https://i.imgur.com/Ql1K54M.png",
+    image: "https://raw.githubusercontent.com/mingyun-jeong/character-images/main/bakugo.png",
     description: "결단력 있고 전략적인 당신은 효율적으로 목표를 달성합니다. 바쿠고처럼 높은 기준과 강한 의지로 끊임없이 발전하며 승리를 추구합니다.",
     traits: ["결단력", "리더십", "전략적", "논리적", "자신감"],
     match: "ISFP (미도리야 이즈쿠)"
@@ -230,7 +230,6 @@ function ResultContent() {
               fill
               className="object-cover object-center"
               priority
-              unoptimized
             />
             <div className="absolute bottom-4 left-4 right-4 z-20">
               <div className="bg-white/10 backdrop-blur-md rounded-lg p-3 border border-white/20">
