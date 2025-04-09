@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import AdBanner from '@/app/components/AdBanner';
 
 type MBTIType = 'ISTJ' | 'ISFJ' | 'INFJ' | 'INTJ' | 'ISTP' | 'ISFP' | 'INFP' | 'INTP' | 'ESTP' | 'ESFP' | 'ENFP' | 'ENTP' | 'ESTJ' | 'ESFJ' | 'ENFJ' | 'ENTJ';
@@ -148,7 +147,7 @@ const mbtiResults: Record<MBTIType, MBTIResult> = {
   },
 };
 
-const ResultPage = () => {
+function ResultContent() {
   const searchParams = useSearchParams();
   const mbtiType = searchParams.get('type') as MBTIType || 'ENFP';
   const [copied, setCopied] = useState(false);
@@ -369,6 +368,16 @@ const ResultPage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default ResultPage; 
+export default function ResultPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+      </div>
+    }>
+      <ResultContent />
+    </Suspense>
+  );
+} 

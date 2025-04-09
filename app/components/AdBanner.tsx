@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 
 type AdBannerProps = {
   type?: 'horizontal' | 'vertical' | 'square';
