@@ -111,9 +111,9 @@ const mbtiData = {
   },
   'INTP': {
     type: 'INTP',
-    characterName: '베가펑크',
+    characterName: '프랑키',
     emoji: '🧪',
-    image: '/images/characters/vegapunk.png',
+    image: '/images/characters/franky.png',
     description: '호기심 많고 분석적이며 새로운 것에 관심 많음. 감정보다 논리를 우선함.',
     strengths: ['창의성', '문제해결 능력', '적응력', '발명 능력'],
     weaknesses: ['우유부단함', '실행력 부족', '때로는 비현실적'],
@@ -207,14 +207,14 @@ function MbtiResultContent() {
         <div className="p-6">
           {/* 캐릭터 기본 정보 */}
           <div className="flex flex-col md:flex-row items-center mb-6">
-            <div className="w-40 h-40 relative mb-4 md:mb-0 md:mr-6 flex-shrink-0">
+            <div className="w-[300px] h-[370px] relative mb-4 md:mb-0 md:mr-6 flex-shrink-0">
               {result.image ? (
-                <div className="w-full h-full rounded-full overflow-hidden border-4 border-blue-500">
+                <div className="w-full h-full rounded-lg overflow-hidden border-4 border-blue-500">
                   <Image
                     src={result.image}
                     alt={result.characterName}
-                    width={160}
-                    height={160}
+                    width={300}
+                    height={370}
                     className="object-cover w-full h-full object-center"
                     onError={() => {
                       // 이미지 로드 실패 시 처리 (콘솔에만 표시, 실제 UI에는 영향 없음)
@@ -223,7 +223,7 @@ function MbtiResultContent() {
                   />
                 </div>
               ) : (
-                <div className="w-40 h-40 rounded-full border-4 border-blue-500 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
+                <div className="w-[300px] h-[370px] rounded-lg border-4 border-blue-500 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
                   <span className="text-7xl">{result.emoji}</span>
                 </div>
               )}
