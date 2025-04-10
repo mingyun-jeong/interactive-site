@@ -22,31 +22,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-indigo-50 dark:from-slate-950 dark:to-indigo-950">
-      {/* Top Banner with Home Link */}
-      <div className="relative w-full h-24 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
-        <div className="container mx-auto px-4 h-full flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="bg-white p-2 rounded-full">
-              <HomeIcon className="h-6 w-6 text-indigo-600" />
-            </div>
-            <span className="text-white font-bold text-xl">인터랙티브 테스트</span>
-          </Link>
-          <div className="hidden md:block">
-            <div className="flex space-x-4">
-              <Link href="/quizzes/mbti" className="text-white hover:text-indigo-100 transition-colors">
-                MBTI 테스트
-              </Link>
-              <Link href="/quizzes/love" className="text-white hover:text-indigo-100 transition-colors">
-                연애 테스트
-              </Link>
-              <Link href="/quizzes/iq" className="text-white hover:text-indigo-100 transition-colors">
-                IQ 테스트
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-      
       <div className="container mx-auto px-4 py-12">
         <header className="text-center mb-16">
           <div className="inline-block mb-4 bg-indigo-100 dark:bg-indigo-900/30 px-4 py-2 rounded-full text-indigo-700 dark:text-indigo-300 font-medium text-sm">
