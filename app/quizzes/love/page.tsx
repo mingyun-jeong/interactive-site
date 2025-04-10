@@ -1,399 +1,325 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import AdBanner from '@/app/components/AdBanner';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import MbtiQuestion from '@/components/MbtiQuestion';
+import { ChevronLeft } from 'lucide-react';
+import AdBanner from '@/components/AdBanner';
+import { incrementVisitorCount } from '@/lib/visitors';
 
-// 연애 스타일 질문 목록
-const questions = [
+// 타입 정의
+interface Option {
+  text: string;
+  type: string;
+}
+
+interface Question {
+  question: string;
+  options: Option[];
+}
+
+// 연애 성향 테스트 질문
+const questions: Question[] = [
   {
-    id: 1,
-    text: '새로운 사람을 만났을 때 당신은?',
+    question: "Q1. 누군가에게 호감이 생기면 어떻게 행동해?",
     options: [
-      { value: 'A', text: '적극적으로 다가가 대화를 시작한다' },
-      { value: 'P', text: '상대방이 먼저 말을 걸어주길 기다린다' }
+      { text: "먼저 연락하고 표현해!", type: "직진파" },
+      { text: "일단 주변부터 맴돌아", type: "감성가" },
+      { text: "기다리면 오겠지~", type: "쿨한 타입" },
     ]
   },
   {
-    id: 2,
-    text: '연애 초기에 당신의 대화 스타일은?',
+    question: "Q2. 썸 타는 중, 가장 중요하게 생각하는 건?",
     options: [
-      { value: 'D', text: '깊은 주제로 대화하며 상대방을 빠르게 알아가려 한다' },
-      { value: 'C', text: '가벼운 주제로 천천히 친해지는 것을 선호한다' }
+      { text: "설렘과 감정의 흐름", type: "로맨티스트" },
+      { text: "말보단 행동", type: "무심한 듯 다정" },
+      { text: "상대의 리액션과 밀당 타이밍", type: "밀당파" },
     ]
   },
   {
-    id: 3,
-    text: '데이트 계획을 세울 때 당신은?',
+    question: "Q3. 데이트할 때 가장 좋은 순간은?",
     options: [
-      { value: 'P', text: '세부 일정과 장소를 미리 계획해두는 편이다' },
-      { value: 'S', text: '즉흥적으로 그날 기분에 따라 결정한다' }
+      { text: "함께 걷는 조용한 길", type: "감성가" },
+      { text: "예고 없는 깜짝 이벤트", type: "로맨티스트" },
+      { text: "서로 대화로 가까워질 때", type: "현실주의자" },
     ]
   },
   {
-    id: 4,
-    text: '상대방과 다툼이 생겼을 때 당신은?',
+    question: "Q4. 연애할 때 내가 가장 중요하게 여기는 건?",
     options: [
-      { value: 'C', text: '문제를 바로 해결하기 위해 대화를 시도한다' },
-      { value: 'A', text: '일단 시간을 두고 감정이 가라앉기를 기다린다' }
+      { text: "신뢰와 약속", type: "현실주의자" },
+      { text: "진심 어린 감정", type: "감성가" },
+      { text: "긴장감 있는 설렘", type: "밀당파" },
     ]
   },
   {
-    id: 5,
-    text: '연인의 생일 선물을 고를 때 당신은?',
+    question: "Q5. 상대가 연락이 뜸하면?",
     options: [
-      { value: 'P', text: '실용적이고 필요한 것을 선물한다' },
-      { value: 'R', text: '의미 있고 감성적인 것을 선물한다' }
+      { text: "먼저 연락해서 무슨 일인지 물어봐", type: "직진파" },
+      { text: "그냥 기다려. 각자 사정 있겠지", type: "쿨한 타입" },
+      { text: "나도 똑같이 안 해. 자존심이 더 중요", type: "나쁜남자/여자" },
     ]
   },
   {
-    id: 6,
-    text: '연인에게 사랑을 표현하는 방식은?',
+    question: "Q6. 사랑은 ______ 이다.",
     options: [
-      { value: 'R', text: '언어로 직접 사랑한다고 표현한다' },
-      { value: 'A', text: '행동과 태도로 내 마음을 보여준다' }
+      { text: "기적", type: "로맨티스트" },
+      { text: "협력", type: "현실주의자" },
+      { text: "게임", type: "밀당파" },
     ]
   },
   {
-    id: 7,
-    text: '연애에서 당신이 가장 중요하게 생각하는 것은?',
+    question: "Q7. 고백은 언제 해?",
     options: [
-      { value: 'D', text: '서로 깊은 이해와 공감대를 형성하는 것' },
-      { value: 'C', text: '함께 있을 때 즐겁고 편안한 시간을 보내는 것' }
+      { text: "마음이 꽉 찼을 때 바로!", type: "직진파" },
+      { text: "상대도 나를 좋아한다는 확신이 들 때", type: "신중파" },
+      { text: "고백은 그쪽이 먼저 하는 게 좋아", type: "나쁜남자/여자" },
     ]
   },
   {
-    id: 8,
-    text: '연인과 함께 있을 때 당신은?',
+    question: "Q8. 내 연애 스타일은?",
     options: [
-      { value: 'S', text: '대화가 끊이지 않게 적극적으로 소통한다' },
-      { value: 'P', text: '함께 있는 것만으로도 편안하고 침묵도 괜찮다' }
+      { text: "낭만적이고 드라마틱", type: "로맨티스트" },
+      { text: "조용하지만 깊은 애정", type: "감성가" },
+      { text: "실용적이고 깔끔하게", type: "현실주의자" },
     ]
   },
   {
-    id: 9,
-    text: '연인의 단점이 보일 때 당신은?',
+    question: "Q9. 내가 사랑에 빠질 때는?",
     options: [
-      { value: 'D', text: '솔직하게 이야기하고 개선될 수 있도록 돕는다' },
-      { value: 'R', text: '있는 그대로 받아들이고 장점에 더 집중한다' }
+      { text: "서로 웃을 때", type: "감성가" },
+      { text: "그 사람이 날 리드할 때", type: "나쁜남자/여자" },
+      { text: "내가 보호해 주고 싶을 때", type: "순정파" },
     ]
   },
   {
-    id: 10,
-    text: '연인이 바쁘다고 연락이 뜸할 때 당신은?',
+    question: "Q10. 이별 후 나는?",
     options: [
-      { value: 'C', text: '이해하고 기다리지만 가끔 안부 메시지를 보낸다' },
-      { value: 'S', text: '서운하지만 상대방이 먼저 연락할 때까지 기다린다' }
+      { text: "금방 다시 잘 살아", type: "쿨한 타입" },
+      { text: "몇 달 동안 힘들어함", type: "감성가" },
+      { text: "계속 연락하고 싶은 마음을 참는다", type: "로맨티스트" },
     ]
   },
   {
-    id: 11,
-    text: '장기적인 연애 관계에서 중요한 것은?',
+    question: "Q11. 연애 초반, 당신의 가장 큰 고민은?",
     options: [
-      { value: 'P', text: '서로의 성장과 목표를 지지하는 관계' },
-      { value: 'R', text: '안정감과 정서적 유대감이 강한 관계' }
+      { text: "내가 더 좋아하는 것 같아서 불안해", type: "감성가" },
+      { text: "이 관계가 오래 갈 수 있을까?", type: "현실주의자" },
+      { text: "상대가 나에게 얼마나 빠졌는지가 궁금해", type: "밀당파" },
     ]
   },
   {
-    id: 12,
-    text: '이별의 위기가 찾아왔을 때 당신은?',
+    question: "Q12. 내가 상대에게 자주 듣는 말은?",
     options: [
-      { value: 'A', text: '모든 방법을 동원해 관계를 회복하려 노력한다' },
-      { value: 'D', text: '냉정하게 문제를 분석하고 필요하다면 이별도 수용한다' }
+      { text: "너는 진짜 다정하다", type: "순정파" },
+      { text: "넌 좀 어렵다, 무슨 생각하는지 모르겠어", type: "무심한 듯 다정" },
+      { text: "너는 정말 재밌어", type: "유쾌한 타입" },
+    ]
+  },
+  {
+    question: "Q13. 데이트 장소를 정할 때 당신은?",
+    options: [
+      { text: "분위기 좋은 곳을 찾아 깜짝 제안함", type: "로맨티스트" },
+      { text: "현실적으로 가까운 곳, 가격, 시간 고려", type: "현실주의자" },
+      { text: "어디든 너만 있으면 돼라며 넘김", type: "감성가" },
+    ]
+  },
+  {
+    question: "Q14. 애인에게 가장 받고 싶은 건?",
+    options: [
+      { text: "예고 없는 선물이나 메시지", type: "로맨티스트" },
+      { text: "내 감정을 공감해주는 말 한마디", type: "감성가" },
+      { text: "같이 있는 시간, 함께 하는 루틴", type: "현실주의자" },
+    ]
+  },
+  {
+    question: "Q15. 이 중 가장 마음이 끌리는 대사는?",
+    options: [
+      { text: "네가 웃으면 나도 좋아", type: "감성가" },
+      { text: "나 너 좋아해. 많이.", type: "직진파" },
+      { text: "오늘부터 1일이야, 반박 불가.", type: "밀당파" },
     ]
   }
 ];
 
-// 연애 스타일 유형
-const loveTypes = [
-  {
-    id: 'RPCA',
-    title: '로맨틱 파트너',
-    description: '감성적이고 낭만적인 연애를 추구하며, 상대방에게 헌신적입니다. 작은 이벤트와 기념일을 챙기고 감정 표현에 솔직합니다.',
-    image: '/images/love/romantic.png',
-    characteristics: [
-      '낭만적인 이벤트와 깜짝 선물을 좋아함',
-      '감정 표현에 솔직하고 적극적',
-      '기념일과 특별한 날을 중요시함',
-      '관계에 헌신적이고 충실함'
-    ],
-    strengths: [
-      '따뜻한 감성으로 파트너를 행복하게 만듦',
-      '관계에 항상 새로움과 설렘을 유지함',
-      '풍부한 감정 표현으로 파트너가 사랑받는다고 느끼게 함'
-    ],
-    advice: '지나친 감정 기복에 주의하세요. 현실적인 측면도 함께 고려하면 더 균형 잡힌 관계를 유지할 수 있습니다.'
-  },
-  {
-    id: 'RPDA',
-    title: '신중한 계획가',
-    description: '관계의 미래를 중요시하고 계획적으로 연애를 이끌어 나갑니다. 안정적이고 신뢰할 수 있는 파트너입니다.',
-    image: '/images/love/planner.png',
-    characteristics: [
-      '장기적인 관계 목표를 중요시함',
-      '계획적이고 체계적인 데이트 선호',
-      '약속과 신뢰를 중요하게 생각함',
-      '감정보다 논리적인 판단을 우선시함'
-    ],
-    strengths: [
-      '믿음직하고 안정적인 파트너',
-      '미래를 함께 계획하고 준비함',
-      '책임감 있고 의지할 수 있는 존재'
-    ],
-    advice: '때로는 계획에서 벗어나 즉흥적인 순간을 즐겨보세요. 모든 것이 계획대로 되지 않아도 괜찮습니다.'
-  },
-  {
-    id: 'RSCA',
-    title: '배려하는 지지자',
-    description: '파트너의 필요와 감정에 세심하게 주의를 기울이며, 무조건적인 지지와 배려를 보여줍니다.',
-    image: '/images/love/supporter.png',
-    characteristics: [
-      '파트너의 이야기를 경청하고 공감함',
-      '상대방의 필요를 먼저 생각함',
-      '갈등보다 조화를 추구함',
-      '지지와 격려를 아끼지 않음'
-    ],
-    strengths: [
-      '따뜻하고 안정적인 관계 형성',
-      '파트너가 정서적으로 안전하다고 느끼게 함',
-      '문제 상황에서 든든한 지원군 역할'
-    ],
-    advice: '자신의 필요와 감정도 중요합니다. 지나친 자기희생은 장기적으로 관계에 부정적 영향을 줄 수 있어요.'
-  },
-  {
-    id: 'RPCD',
-    title: '실용적 동반자',
-    description: '현실적이고 실용적인 관계를 추구하며, 서로의 독립성과 성장을 중요시합니다.',
-    image: '/images/love/practical.png',
-    characteristics: [
-      '실용적이고 현실적인 관계 추구',
-      '독립성과 개인 공간을 중요시함',
-      '명확한 의사소통 선호',
-      '문제 해결 중심적 접근'
-    ],
-    strengths: [
-      '합리적이고 균형 잡힌 관계 유지',
-      '서로의 성장과 발전을 지원함',
-      '갈등 상황에서 효과적인 해결책 제시'
-    ],
-    advice: '때로는 논리보다 감정에 집중해보세요. 파트너의 감정적 필요에 더 민감하게 반응하면 관계가 더 깊어질 수 있습니다.'
-  },
-  {
-    id: 'ASCD',
-    title: '정열적 탐험가',
-    description: '열정적이고 스릴 넘치는 관계를 추구하며, 새로운 경험과 도전을 함께 즐깁니다.',
-    image: '/images/love/adventurer.png',
-    characteristics: [
-      '활동적이고 모험적인 데이트 선호',
-      '열정적인 감정 표현',
-      '새로운 경험과 도전을 추구함',
-      '자발적이고 즉흥적인 성향'
-    ],
-    strengths: [
-      '관계에 활력과 흥미를 불어넣음',
-      '지루함을 느낄 틈 없는 역동적인 관계',
-      '파트너와 함께 성장하고 새로운 세계를 탐험함'
-    ],
-    advice: '때로는 안정과 일상의 소중함도 느껴보세요. 모든 순간이 극적이거나 흥미진진할 필요는 없습니다.'
-  },
-  {
-    id: 'ASCA',
-    title: '독립적 자유인',
-    description: '자신과 파트너 모두의 독립성을 중요시하며, 서로 구속하지 않는 자유로운 관계를 추구합니다.',
-    image: '/images/love/independent.png',
-    characteristics: [
-      '개인의 자유와 독립성을 중요시함',
-      '구속되지 않는 관계 추구',
-      '자신의 시간과 공간을 필요로 함',
-      '파트너의 자율성을 존중함'
-    ],
-    strengths: [
-      '서로에게 충분한 성장 공간 제공',
-      '신선함과 독립성이 유지되는 관계',
-      '상대방을 소유하려 하지 않고 있는 그대로 받아들임'
-    ],
-    advice: '독립성도 중요하지만, 유대감과 친밀함을 위한 시간도 필요합니다. 적절한 균형을 찾아보세요.'
-  },
-  {
-    id: 'APCD',
-    title: '분석적 전략가',
-    description: '관계의 패턴과 역학을 분석하고 이해하려 하며, 효과적인 의사소통과 문제 해결을 중요시합니다.',
-    image: '/images/love/analyzer.png',
-    characteristics: [
-      '관계의 패턴과 역학을 분석함',
-      '논리적이고 체계적인 문제 해결 접근',
-      '감정보다 이성적 판단 우선',
-      '명확하고 직접적인 의사소통 선호'
-    ],
-    strengths: [
-      '관계의 문제를 객관적으로 해결할 수 있음',
-      '효과적인 의사소통으로 오해를 줄임',
-      '장기적인 관계 발전을 위한 전략적 사고'
-    ],
-    advice: '때로는 분석을 멈추고 순간의 감정을 느껴보세요. 모든 관계의 측면이 논리적으로 설명될 수는 없습니다.'
-  },
-  {
-    id: 'APDR',
-    title: '헌신적 보호자',
-    description: '파트너를 깊이 보살피고 보호하려는 성향이 강하며, 안정적이고 신뢰할 수 있는 관계를 중요시합니다.',
-    image: '/images/love/protector.png',
-    characteristics: [
-      '파트너를 보호하고 돌보려는 성향',
-      '안정적이고 신뢰할 수 있는 관계 추구',
-      '책임감과 헌신이 강함',
-      '파트너의 안전과 행복을 최우선시함'
-    ],
-    strengths: [
-      '파트너에게 안정감과 신뢰를 제공함',
-      '어려운 시기에도 변함없는 지지와 헌신',
-      '강한 책임감으로 관계를 단단하게 유지'
-    ],
-    advice: '과잉보호는 오히려 파트너의 성장을 방해할 수 있습니다. 때로는 거리를 두고 스스로 결정할 기회를 주세요.'
-  }
-];
+// 성향별 카운트 초기화
+const initialTypeCounts = {
+  "로맨티스트": 0,
+  "현실주의자": 0,
+  "밀당파": 0,
+  "감성가": 0,
+  "직진파": 0,
+  "쿨한 타입": 0,
+  "나쁜남자/여자": 0,
+  "순정파": 0,
+  "신중파": 0,
+  "무심한 듯 다정": 0,
+  "유쾌한 타입": 0
+};
 
-const LoveStyleQuiz = () => {
+export default function LoveTest() {
   const router = useRouter();
+  const [step, setStep] = useState<'gender' | 'questions'>('gender');
+  const [gender, setGender] = useState<'male' | 'female' | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
-
-  const handleAnswer = (value: string) => {
-    const newAnswers = { ...answers, [currentQuestion]: value };
+  const [answers, setAnswers] = useState<string[]>([]);
+  const [typeCounts, setTypeCounts] = useState(initialTypeCounts);
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+    
+    // 브라우저 환경에서만 실행
+    if (typeof window !== 'undefined') {
+      try {
+        const pathname = window.location.pathname;
+        incrementVisitorCount(pathname).catch(() => {
+          // 오류가 발생해도 앱 기능에 영향을 주지 않음
+        });
+      } catch {
+        // 예외 처리가 되어도 앱이 계속 작동
+      }
+    }
+  }, []);
+  
+  const handleGenderSelect = (selected: 'male' | 'female') => {
+    setGender(selected);
+    setStep('questions');
+  };
+  
+  const handleOptionSelect = (type: string) => {
+    // 현재 타입 카운트 증가
+    const newTypeCounts = {
+      ...typeCounts,
+      [type]: typeCounts[type as keyof typeof typeCounts] + 1
+    };
+    setTypeCounts(newTypeCounts);
+    
+    // 답변 저장
+    const newAnswers = [...answers, type];
     setAnswers(newAnswers);
     
+    // 다음 질문으로 이동 또는 결과 페이지로 이동
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      calculateResult(newAnswers);
+      // 결과 계산
+      const result = calculateResult(newTypeCounts);
+      router.push(`/quizzes/love/result?type=${result}&gender=${gender}`);
     }
-  };
-
-  const calculateResult = (answers: Record<string, string>) => {
-    setLoading(true);
-    
-    const counts = {
-      R: 0, P: 0, // Romantic vs Practical
-      S: 0, D: 0, // Supportive vs Direct
-      C: 0, A: 0, // Communicative vs Autonomous
-    };
-    
-    Object.values(answers).forEach((value) => {
-      counts[value as keyof typeof counts]++;
-    });
-    
-    // 가장 높은 점수의 유형을 선택
-    const type = [
-      counts.R >= counts.P ? 'R' : 'P',
-      counts.S >= counts.D ? 'S' : 'D',
-      counts.C >= counts.A ? 'C' : 'A',
-    ].join('');
-    
-    // 유형이 정확히 일치하지 않으면 가장 가까운 유형 선택
-    const closestType = findClosestType(type);
-    
-    router.push(`/quizzes/love/result?type=${closestType}`);
   };
   
-  // 사전 정의된 유형 중 가장 가까운 유형 찾기
-  const findClosestType = (type: string) => {
-    // 미리 정의된 유형 ID들
-    const availableTypes = loveTypes.map(t => t.id);
+  const calculateResult = (counts: typeof initialTypeCounts) => {
+    // 가장 높은 점수의 성향 찾기
+    let maxType = "";
+    let maxCount = -1;
     
-    // 정확한 일치가 있으면 그것을 반환
-    if (availableTypes.includes(type)) {
-      return type;
-    }
-    
-    // 없으면 가장 문자가 많이 일치하는 유형 찾기
-    let maxMatches = 0;
-    let closestType = availableTypes[0];
-    
-    availableTypes.forEach(availableType => {
-      let matches = 0;
-      for (let i = 0; i < Math.min(type.length, availableType.length); i++) {
-        if (type[i] === availableType[i]) {
-          matches++;
-        }
-      }
-      
-      if (matches > maxMatches) {
-        maxMatches = matches;
-        closestType = availableType;
+    Object.entries(counts).forEach(([type, count]) => {
+      if (count > maxCount) {
+        maxType = type;
+        maxCount = count;
       }
     });
     
-    return closestType;
+    return encodeURIComponent(maxType);
   };
-
+  
   const progress = ((currentQuestion + 1) / questions.length) * 100;
-
+  
+  if (!mounted) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
+      </div>
+    );
+  }
+  
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-purple-100 dark:from-gray-900 dark:to-purple-900">
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-red-100 dark:from-gray-900 dark:to-red-900">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-pink-700 dark:text-pink-300">연애 스타일 테스트</h1>
-        
-        <div className="max-w-xl mx-auto mb-8 text-center">
-          <p className="text-gray-600 dark:text-gray-300">
-            당신의 연애 스타일을 알아보세요. 12개의 질문에 답하고 나만의 연애 유형을 확인하세요.
-          </p>
+        {/* 상단 내비게이션 */}
+        <div className="flex justify-between items-center mb-8">
+          <Link href="/" className="flex items-center text-pink-700 dark:text-pink-300 hover:text-pink-500 dark:hover:text-pink-200 transition-colors">
+            <ChevronLeft className="h-5 w-5 mr-1" />
+            <span>홈으로</span>
+          </Link>
         </div>
         
+        {/* 상단 광고 배너 */}
         <AdBanner type="horizontal" position="top" />
         
-        <div className="w-full bg-gray-200 rounded-full h-2.5 mb-8 dark:bg-gray-700">
-          <div 
-            className="bg-pink-600 h-2.5 rounded-full transition-all duration-300 ease-in-out" 
-            style={{ width: `${progress}%` }}
-          ></div>
+        <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8 mb-8">
+          <h1 className="text-3xl font-bold text-center mb-6 text-pink-600 dark:text-pink-400">
+            K-드라마 연애 성향 테스트
+          </h1>
+          
+          {step === 'gender' ? (
+            <div className="space-y-8">
+              <p className="text-lg text-center mb-8">
+                당신의 성별을 선택하세요
+              </p>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  onClick={() => handleGenderSelect('male')}
+                  className="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-200 font-medium py-6 px-4 rounded-xl transition-all transform hover:scale-105"
+                >
+                  <div className="text-5xl mb-2">👨</div>
+                  <div>남성</div>
+                </button>
+                
+                <button
+                  onClick={() => handleGenderSelect('female')}
+                  className="bg-pink-100 hover:bg-pink-200 dark:bg-pink-900 dark:hover:bg-pink-800 text-pink-800 dark:text-pink-200 font-medium py-6 px-4 rounded-xl transition-all transform hover:scale-105"
+                >
+                  <div className="text-5xl mb-2">👩</div>
+                  <div>여성</div>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              {/* 진행 상태 바 */}
+              <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6 dark:bg-gray-700">
+                <div 
+                  className="bg-pink-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+              
+              <div className="text-sm text-gray-500 dark:text-gray-400 text-right mb-4">
+                {currentQuestion + 1} / {questions.length}
+              </div>
+              
+              <div className="mb-8">
+                <h2 className="text-xl font-bold mb-6 text-gray-800 dark:text-gray-100">
+                  {questions[currentQuestion].question}
+                </h2>
+                
+                <div className="space-y-3">
+                  {questions[currentQuestion].options.map((option, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleOptionSelect(option.type)}
+                      className="w-full text-left bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:border-pink-300 dark:hover:border-pink-500 p-4 rounded-xl transition-all hover:shadow-md"
+                    >
+                      <div className="flex items-center">
+                        <span className="flex-shrink-0 w-6 h-6 rounded-full bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 flex items-center justify-center mr-3">
+                          {String.fromCharCode(65 + index)}
+                        </span>
+                        <span className="text-gray-800 dark:text-gray-200">{option.text}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         
-        {!loading && (
-          <div className="max-w-2xl mx-auto">
-            <Card className="shadow-lg border-0 overflow-hidden">
-              <CardContent className="p-0">
-                <div className="bg-gradient-to-r from-pink-500 to-purple-500 p-3">
-                  <p className="text-white text-center font-medium">
-                    질문 {currentQuestion + 1}/{questions.length}
-                  </p>
-                </div>
-                <div className="p-6">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-6">
-                    {questions[currentQuestion].text}
-                  </h2>
-                  
-                  <div className="space-y-4">
-                    {questions[currentQuestion].options.map((option, index) => (
-                      <Button
-                        key={index}
-                        onClick={() => handleAnswer(option.value)}
-                        className="w-full justify-start text-left py-4 px-6 bg-gray-50 hover:bg-pink-50 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200"
-                        variant="outline"
-                      >
-                        {option.text}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-        
-        {loading && (
-          <div className="flex justify-center items-center min-h-[300px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
-          </div>
-        )}
-        
+        {/* 하단 광고 배너 */}
         <AdBanner type="horizontal" position="bottom" />
       </div>
     </div>
   );
-};
-
-export default LoveStyleQuiz; 
+} 
