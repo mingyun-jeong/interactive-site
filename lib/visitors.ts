@@ -3,9 +3,7 @@ import { supabase, VisitorStats } from './supabase';
 // 방문자 수 데이터 타입
 interface VisitorData {
   totalCount: number;
-  pageVisits: {
-    [key: string]: number;
-  };
+  pageVisits: Record<string, number>;
   lastUpdated: number;
 }
 
@@ -50,28 +48,31 @@ export async function incrementVisitorCount(pagePath: string): Promise<VisitorDa
       
       return {
         totalCount: 1,
-        pageVisits: { [pagePath]: 1 },
+        pageVisits: { [pagePath]: 1 } as Record<string, number>,
         lastUpdated: Date.now()
       };
     } else {
       // 기존 데이터 업데이트
-      const pageVisits = stats.page_visits || {};
+      const typedStats = stats as unknown as VisitorStats;
+      const pageVisits = typedStats.page_visits as Record<string, number> || {};
       const updatedPageVisits = {
         ...pageVisits,
         [pagePath]: (pageVisits[pagePath] || 0) + 1
       };
       
-      await supabase
-        .from('visitor_stats')
-        .update({
-          total_count: stats.total_count + 1,
-          page_visits: updatedPageVisits,
-          last_updated: now
-        })
-        .eq('id', stats.id);
+      if (typedStats.id) {
+        await supabase
+          .from('visitor_stats')
+          .update({
+            total_count: (typedStats.total_count || 0) + 1,
+            page_visits: updatedPageVisits,
+            last_updated: now
+          })
+          .eq('id', typedStats.id);
+      }
       
       return {
-        totalCount: stats.total_count + 1,
+        totalCount: (typedStats.total_count || 0) + 1,
         pageVisits: updatedPageVisits,
         lastUpdated: Date.now()
       };
@@ -107,21 +108,23 @@ export async function getVisitorStats(): Promise<VisitorData | null> {
     if (!stats) {
       return {
         totalCount: 0,
-        pageVisits: {},
+        pageVisits: {} as Record<string, number>,
         lastUpdated: Date.now()
       };
     }
     
+    const typedStats = stats as unknown as VisitorStats;
+    
     return {
-      totalCount: stats.total_count,
-      pageVisits: stats.page_visits || {},
-      lastUpdated: new Date(stats.last_updated).getTime()
+      totalCount: typedStats.total_count || 0,
+      pageVisits: typedStats.page_visits as Record<string, number> || {},
+      lastUpdated: new Date(typedStats.last_updated).getTime()
     };
   } catch (error) {
     // 실패해도 사용자 경험에 영향을 주지 않도록 기본값 반환
     return {
       totalCount: 0,
-      pageVisits: {},
+      pageVisits: {} as Record<string, number>,
       lastUpdated: Date.now()
     };
   }

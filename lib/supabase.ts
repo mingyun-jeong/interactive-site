@@ -11,6 +11,9 @@ if (typeof window !== 'undefined') {
   supabase = createClient(supabaseUrl, supabaseKey);
 }
 
+// Export the supabase client
+export { supabase };
+
 // 타입 정의
 export interface VisitorStats {
   id?: number;
