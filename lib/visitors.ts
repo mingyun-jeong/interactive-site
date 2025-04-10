@@ -11,10 +11,14 @@ interface VisitorData {
 
 // 방문자 수 증가
 export async function incrementVisitorCount(pagePath: string): Promise<VisitorData | null> {
+  // SSR 중에는 아무것도 하지 않음
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  
   try {
-    // 서버 측에서 실행되거나 Supabase 클라이언트가 초기화되지 않은 경우
+    // Supabase 클라이언트가 초기화되지 않은 경우
     if (!supabase) {
-      console.log('Supabase 클라이언트가 초기화되지 않았습니다');
       return null;
     }
     
@@ -25,8 +29,8 @@ export async function incrementVisitorCount(pagePath: string): Promise<VisitorDa
       .limit(1)
       .single();
     
-    if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116: no rows returned
-      console.error('방문자 데이터 조회 오류:', fetchError);
+    // PGRST116: no rows returned - 이 오류는 예상되는 정상적인 경우임
+    if (fetchError && fetchError.code !== 'PGRST116') {
       return null;
     }
     
@@ -40,16 +44,9 @@ export async function incrementVisitorCount(pagePath: string): Promise<VisitorDa
         last_updated: now
       };
       
-      const { data: insertedStats, error: insertError } = await supabase
+      await supabase
         .from('visitor_stats')
-        .insert([newStats])
-        .select()
-        .single();
-      
-      if (insertError) {
-        console.error('방문자 데이터 생성 오류:', insertError);
-        return null;
-      }
+        .insert([newStats]);
       
       return {
         totalCount: 1,
@@ -64,21 +61,14 @@ export async function incrementVisitorCount(pagePath: string): Promise<VisitorDa
         [pagePath]: (pageVisits[pagePath] || 0) + 1
       };
       
-      const { data: updatedStats, error: updateError } = await supabase
+      await supabase
         .from('visitor_stats')
         .update({
           total_count: stats.total_count + 1,
           page_visits: updatedPageVisits,
           last_updated: now
         })
-        .eq('id', stats.id)
-        .select()
-        .single();
-      
-      if (updateError) {
-        console.error('방문자 데이터 업데이트 오류:', updateError);
-        return null;
-      }
+        .eq('id', stats.id);
       
       return {
         totalCount: stats.total_count + 1,
@@ -87,16 +77,20 @@ export async function incrementVisitorCount(pagePath: string): Promise<VisitorDa
       };
     }
   } catch (error) {
-    console.error('방문자 수 업데이트 중 오류:', error);
+    // 실패해도 사용자 경험에 영향을 주지 않도록 null 반환
     return null;
   }
 }
 
 // 방문자 수 조회
 export async function getVisitorStats(): Promise<VisitorData | null> {
+  // SSR 중에는 아무것도 하지 않음
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  
   try {
     if (!supabase) {
-      console.log('Supabase 클라이언트가 초기화되지 않았습니다');
       return null;
     }
     
@@ -107,7 +101,6 @@ export async function getVisitorStats(): Promise<VisitorData | null> {
       .single();
     
     if (error && error.code !== 'PGRST116') {
-      console.error('방문자 데이터 조회 오류:', error);
       return null;
     }
     
@@ -125,7 +118,11 @@ export async function getVisitorStats(): Promise<VisitorData | null> {
       lastUpdated: new Date(stats.last_updated).getTime()
     };
   } catch (error) {
-    console.error('방문자 수 조회 중 오류:', error);
-    return null;
+    // 실패해도 사용자 경험에 영향을 주지 않도록 기본값 반환
+    return {
+      totalCount: 0,
+      pageVisits: {},
+      lastUpdated: Date.now()
+    };
   }
 } 

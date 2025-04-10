@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, Brain } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { ChevronLeft, ChevronRight, Brain, Users } from "lucide-react";
 import AdBanner from "@/components/AdBanner";
+import { incrementVisitorCount } from "@/lib/visitors";
 
 // Option type definition
 interface QuizOption {
@@ -161,19 +162,20 @@ export default function IQTest() {
   const [score, setScore] = useState(0);
   const [mounted, setMounted] = useState(false);
   
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  
+  // 단일 useEffect로 통합
   useEffect(() => {
     setMounted(true);
     
-    // 브라우저 환경에서만 방문자 수 증가 실행
+    // 브라우저 환경에서만 실행
     if (typeof window !== 'undefined') {
-      const pathname = window.location.pathname;
-      incrementVisitorCount(pathname).catch(error => {
-        console.error('방문자 수 업데이트 실패:', error);
-      });
+      try {
+        const pathname = window.location.pathname;
+        incrementVisitorCount(pathname).catch(() => {
+          // 오류가 발생해도 앱 기능에 영향을 주지 않음
+        });
+      } catch {
+        // 예외 처리가 되어도 앱이 계속 작동
+      }
     }
   }, []);
   
