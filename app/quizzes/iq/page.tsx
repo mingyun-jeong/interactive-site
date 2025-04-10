@@ -201,8 +201,12 @@ export default function IQTest() {
   };
   
   const calculateIQ = () => {
-    // 기본 IQ 점수 계산 (정답 비율에 따라 85-145 사이의 점수 부여)
-    const baseScore = 85 + (score / questions.length) * 60;
+    // 오답률을 고려한 IQ 점수 계산
+    // 정답률이 높을수록 높은 IQ, 오답률이 높을수록 낮은 IQ
+    const correctRate = score / questions.length;
+    
+    // 정답이 없으면 최저점, 모두 맞추면 최고점으로 계산
+    const baseScore = 70 + correctRate * 70;
     
     // 약간의 변동성 추가 (±5)
     const variation = Math.floor(Math.random() * 11) - 5;
