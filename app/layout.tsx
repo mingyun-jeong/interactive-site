@@ -6,9 +6,9 @@ import Script from 'next/script';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: '애니메이션 MBTI 테스트 - 당신과 닮은 애니 캐릭터는?',
-  description: 'MBTI 성격 유형으로 나와 닮은 애니메이션 캐릭터를 찾아보세요.',
-  keywords: 'MBTI, 애니메이션, 테스트, 퀴즈, 성격 유형',
+  title: '원피스 MBTI 테스트 - 당신과 닮은 원피스 캐릭터는?',
+  description: 'MBTI 성격 유형으로 나와 닮은 원피스 캐릭터를 찾아보세요.',
+  keywords: 'MBTI, 원피스, 테스트, 퀴즈, 성격 유형, 애니메이션',
 }
 
 export default function RootLayout({

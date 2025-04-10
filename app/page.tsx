@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Link from "next/link";
 import AdBanner from "./components/AdBanner";
 import { 
@@ -11,6 +12,11 @@ import {
   Clock 
 } from "lucide-react";
 
+export const metadata: Metadata = {
+  title: '원피스 MBTI 테스트 - 당신과 닮은 원피스 캐릭터는?',
+  description: 'MBTI 성격 유형으로 나와 닮은 원피스 캐릭터를 찾아보세요.',
+};
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-indigo-50 dark:from-slate-950 dark:to-indigo-950">
@@ -20,10 +26,10 @@ export default function Home() {
             재미있는 심리 테스트
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-transparent bg-clip-text">
-            애니메이션 MBTI 테스트
+            원피스 MBTI 테스트
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            나는 어떤 애니메이션 캐릭터와 닮았을까? 재미있는 MBTI 테스트로 알아보세요!
+            16가지 MBTI 성격 유형으로 알아보는 당신과 닮은 원피스 캐릭터는?
           </p>
           
           <div className="mt-10">
