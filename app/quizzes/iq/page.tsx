@@ -159,7 +159,6 @@ export default function IQTest() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{[key: number]: string}>({});
   const [score, setScore] = useState(0);
-  const [showExplanation, setShowExplanation] = useState(false);
   const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
@@ -178,25 +177,23 @@ export default function IQTest() {
       setScore(prevScore => prevScore + 1);
     }
     
-    // 설명 표시
-    setShowExplanation(true);
-  };
-  
-  const goToNextQuestion = () => {
-    setShowExplanation(false);
+    // 다음 문제로 자동 이동
     if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(prevQuestion => prevQuestion + 1);
+      setTimeout(() => {
+        setCurrentQuestion(prevQuestion => prevQuestion + 1);
+      }, 500); // 0.5초 후 다음 문제로 이동
     } else {
-      // 모든 문제 완료 - 결과 페이지로 이동
-      const iqScore = calculateIQ();
-      router.push(`/quizzes/iq/result?score=${iqScore}`);
+      // 마지막 문제인 경우 결과 페이지로 이동
+      setTimeout(() => {
+        const iqScore = calculateIQ();
+        router.push(`/quizzes/iq/result?score=${iqScore}`);
+      }, 500);
     }
   };
   
   const goToPreviousQuestion = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(prevQuestion => prevQuestion - 1);
-      setShowExplanation(false);
     }
   };
   
@@ -307,7 +304,7 @@ export default function IQTest() {
           </div>
           
           {/* 정답 설명 */}
-          {showExplanation && (
+          {hasAnswered && (
             <div className={`p-4 rounded-lg mb-6 ${
               answers[question.id] === "correct"
                 ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800"
@@ -341,15 +338,9 @@ export default function IQTest() {
               이전 문제
             </button>
             
-            {hasAnswered && (
-              <button
-                onClick={goToNextQuestion}
-                className="flex items-center px-6 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-full shadow-md hover:shadow-lg transition-all"
-              >
-                {currentQuestion < questions.length - 1 ? "다음 문제" : "결과 확인하기"}
-                <ChevronRight className="h-5 w-5 ml-1" />
-              </button>
-            )}
+            <div className="text-sm text-slate-500 dark:text-slate-400 italic flex items-center">
+              답변 선택 시 자동으로 다음 문제로 이동합니다
+            </div>
           </div>
         </div>
         
