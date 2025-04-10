@@ -13,8 +13,8 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: '원피스 MBTI 테스트 - 당신과 닮은 원피스 캐릭터는?',
-  description: 'MBTI 성격 유형으로 나와 닮은 원피스 캐릭터를 찾아보세요.',
+  title: '테스트 모음 - MBTI 애니메이션 캐릭터, 연애 스타일 테스트 등',
+  description: 'MBTI 성격 유형으로 나와 닮은 애니메이션 캐릭터를 찾고, 나만의 연애 유형과 스타일을 알아보세요.',
 };
 
 export default function Home() {
@@ -88,35 +88,36 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* 추가 퀴즈 카드 - 추후 확장 가능 */}
-            <div className="h-full bg-white dark:bg-slate-800 rounded-2xl shadow-md overflow-hidden border border-slate-100 dark:border-slate-700 opacity-60 relative">
-              <div className="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm z-10">
-                <div className="bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 font-medium px-4 py-2 rounded-full">
-                  Coming Soon
-                </div>
-              </div>
-              <div className="relative h-56 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 flex items-center justify-center p-6">
-                <span className="text-4xl font-bold text-white">LOVE</span>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-3">
-                  연애 성향 테스트
-                </h3>
-                <p className="text-slate-600 dark:text-slate-300 mb-4">
-                  당신의 연애 스타일과 이상형을 알아보세요.
-                </p>
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-700">
-                  <div className="flex items-center text-sm text-pink-600 dark:text-pink-400">
-                    <Heart className="h-4 w-4 mr-1" />
-                    <span>준비 중</span>
-                  </div>
-                  <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
-                    <Clock className="h-4 w-4 mr-1" />
-                    <span>출시 예정</span>
+            {/* 연애 스타일 테스트 카드 - 이제 활성화 */}
+            <Link href="/quizzes/love" className="group">
+              <div className="h-full bg-white dark:bg-slate-800 rounded-2xl shadow-md overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 border border-slate-100 dark:border-slate-700">
+                <div className="relative h-56 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 flex items-center justify-center p-6">
+                  <div className="absolute inset-0 bg-black/10"></div>
+                  <span className="relative text-4xl font-bold text-white">LOVE</span>
+                  <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-2 py-1 rounded-full">
+                    신규
                   </div>
                 </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-3">
+                    연애 성향 테스트
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 mb-4">
+                    당신의 연애 스타일과 이상형을 알아보세요.
+                  </p>
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <div className="flex items-center text-sm text-pink-600 dark:text-pink-400">
+                      <Heart className="h-4 w-4 mr-1" />
+                      <span>9,876+ 참여</span>
+                    </div>
+                    <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
+                      <Clock className="h-4 w-4 mr-1" />
+                      <span>약 3분</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            </Link>
 
             <div className="h-full bg-white dark:bg-slate-800 rounded-2xl shadow-md overflow-hidden border border-slate-100 dark:border-slate-700 opacity-60 relative">
               <div className="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm z-10">
