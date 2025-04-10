@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ShareButtons from "@/components/ShareButtons";
@@ -203,6 +203,14 @@ const loveTypes = [
   }
 ];
 
+function LoadingFallback() {
+  return (
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
+    </div>
+  );
+}
+
 function LoveStyleResultContent() {
   const searchParams = useSearchParams();
   const typeId = searchParams.get('type') || 'RPCA'; // 기본값은 로맨틱 파트너
@@ -216,11 +224,7 @@ function LoveStyleResultContent() {
   }, []);
   
   if (!mounted) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
-      </div>
-    );
+    return <LoadingFallback />;
   }
   
   return (
@@ -356,5 +360,9 @@ function LoveStyleResultContent() {
 }
 
 export default function LoveStyleResult() {
-  return <LoveStyleResultContent />;
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <LoveStyleResultContent />
+    </Suspense>
+  );
 } 
