@@ -209,17 +209,19 @@ function MbtiResultContent() {
           <div className="flex flex-col md:flex-row items-center mb-6">
             <div className="w-40 h-40 relative mb-4 md:mb-0 md:mr-6 flex-shrink-0">
               {result.image ? (
-                <Image
-                  src={result.image}
-                  alt={result.characterName}
-                  width={160}
-                  height={160}
-                  className="rounded-full object-cover border-4 border-blue-500"
-                  onError={() => {
-                    // 이미지 로드 실패 시 처리 (콘솔에만 표시, 실제 UI에는 영향 없음)
-                    console.log(`Failed to load image for ${result.characterName}`);
-                  }}
-                />
+                <div className="w-full h-full rounded-full overflow-hidden border-4 border-blue-500">
+                  <Image
+                    src={result.image}
+                    alt={result.characterName}
+                    width={160}
+                    height={160}
+                    className="object-cover w-full h-full object-center"
+                    onError={() => {
+                      // 이미지 로드 실패 시 처리 (콘솔에만 표시, 실제 UI에는 영향 없음)
+                      console.log(`Failed to load image for ${result.characterName}`);
+                    }}
+                  />
+                </div>
               ) : (
                 <div className="w-40 h-40 rounded-full border-4 border-blue-500 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
                   <span className="text-7xl">{result.emoji}</span>
