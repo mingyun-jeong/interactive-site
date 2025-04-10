@@ -124,8 +124,8 @@ const questions: QuizQuestion[] = [
     options: [
       { id: "A", text: "1/2", value: "wrong" },
       { id: "B", text: "3/5", value: "wrong" },
-      { id: "C", text: "2/5", value: "wrong" },
-      { id: "D", text: "7/10", value: "correct" },
+      { id: "C", text: "2/5", value: "correct" },
+      { id: "D", text: "7/10", value: "wrong" },
     ],
     explanation: "전체 경우의 수는 5C2 = 10입니다. 두 공이 모두 빨간색인 경우의 수는 3C2 = 3이고, 두 공이 모두 파란색인 경우의 수는 2C2 = 1입니다. 따라서 확률은 (3+1)/10 = 4/10 = 2/5입니다."
   },
