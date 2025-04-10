@@ -207,26 +207,15 @@ function MbtiResultContent() {
         <div className="p-6">
           {/* 캐릭터 기본 정보 */}
           <div className="flex flex-col md:flex-row items-center mb-6">
-            <div className="w-[300px] h-[370px] relative mb-4 md:mb-0 md:mr-6 flex-shrink-0">
-              {result.image ? (
-                <div className="w-full h-full rounded-lg overflow-hidden border-4 border-blue-500">
-                  <Image
-                    src={result.image}
-                    alt={result.characterName}
-                    width={300}
-                    height={370}
-                    className="object-cover w-full h-full object-center"
-                    onError={() => {
-                      // 이미지 로드 실패 시 처리 (콘솔에만 표시, 실제 UI에는 영향 없음)
-                      console.log(`Failed to load image for ${result.characterName}`);
-                    }}
-                  />
-                </div>
-              ) : (
-                <div className="w-[300px] h-[370px] rounded-lg border-4 border-blue-500 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
-                  <span className="text-7xl">{result.emoji}</span>
-                </div>
-              )}
+            <div className="w-[300px] h-[370px] rounded-lg overflow-hidden flex-shrink-0 mx-auto md:mx-0">
+              <Image 
+                src={result.image} 
+                alt={result.characterName} 
+                width={300} 
+                height={370}
+                className="w-full h-full object-cover object-center"
+                priority
+              />
             </div>
             <div className="text-center md:text-left">
               <div className="flex items-center justify-center md:justify-start mb-2">
