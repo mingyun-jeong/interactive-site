@@ -12,6 +12,12 @@ interface VisitorData {
 // 방문자 수 증가
 export async function incrementVisitorCount(pagePath: string): Promise<VisitorData | null> {
   try {
+    // 서버 측에서 실행되거나 Supabase 클라이언트가 초기화되지 않은 경우
+    if (!supabase) {
+      console.log('Supabase 클라이언트가 초기화되지 않았습니다');
+      return null;
+    }
+    
     // 먼저 현재 방문자 통계 데이터를 가져옴
     const { data: stats, error: fetchError } = await supabase
       .from('visitor_stats')
@@ -89,6 +95,11 @@ export async function incrementVisitorCount(pagePath: string): Promise<VisitorDa
 // 방문자 수 조회
 export async function getVisitorStats(): Promise<VisitorData | null> {
   try {
+    if (!supabase) {
+      console.log('Supabase 클라이언트가 초기화되지 않았습니다');
+      return null;
+    }
+    
     const { data: stats, error } = await supabase
       .from('visitor_stats')
       .select('*')

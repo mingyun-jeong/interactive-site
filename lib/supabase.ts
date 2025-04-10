@@ -1,11 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Supabase 설정 (실제 프로젝트에서는 환경 변수로 관리하는 것이 좋습니다)
-const supabaseUrl = 'https://your-project-url.supabase.co';
-const supabaseKey = 'your-anon-key';
+// .env.local 파일에서 환경 변수 가져오기
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-// Supabase 클라이언트 생성
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// 클라이언트 측에서만 Supabase 클라이언트 초기화
+let supabase: ReturnType<typeof createClient> | null = null;
+
+if (typeof window !== 'undefined') {
+  supabase = createClient(supabaseUrl, supabaseKey);
+}
 
 // 타입 정의
 export interface VisitorStats {

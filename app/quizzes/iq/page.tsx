@@ -168,15 +168,13 @@ export default function IQTest() {
   useEffect(() => {
     setMounted(true);
     
-    // 페이지 방문 시 방문자 수 증가
-    const pathname = window.location.pathname;
-    incrementVisitorCount(pathname).then(result => {
-      if (result) {
-        console.log('방문자 수 업데이트 성공');
-      }
-    }).catch(error => {
-      console.error('방문자 수 업데이트 실패:', error);
-    });
+    // 브라우저 환경에서만 방문자 수 증가 실행
+    if (typeof window !== 'undefined') {
+      const pathname = window.location.pathname;
+      incrementVisitorCount(pathname).catch(error => {
+        console.error('방문자 수 업데이트 실패:', error);
+      });
+    }
   }, []);
   
   const handleAnswer = (questionId: number, value: string) => {
