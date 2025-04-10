@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from "next/link";
+import Image from "next/image";
 import AdBanner from "./components/AdBanner";
 import { 
   Users, 
@@ -9,7 +10,8 @@ import {
   ChevronRight, 
   Heart, 
   Star, 
-  Clock 
+  Clock,
+  Home as HomeIcon
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -20,6 +22,31 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-indigo-50 dark:from-slate-950 dark:to-indigo-950">
+      {/* Top Banner with Home Link */}
+      <div className="relative w-full h-24 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+        <div className="container mx-auto px-4 h-full flex items-center justify-between">
+          <Link href="/" className="flex items-center space-x-2">
+            <div className="bg-white p-2 rounded-full">
+              <HomeIcon className="h-6 w-6 text-indigo-600" />
+            </div>
+            <span className="text-white font-bold text-xl">인터랙티브 테스트</span>
+          </Link>
+          <div className="hidden md:block">
+            <div className="flex space-x-4">
+              <Link href="/quizzes/mbti" className="text-white hover:text-indigo-100 transition-colors">
+                MBTI 테스트
+              </Link>
+              <Link href="/quizzes/love" className="text-white hover:text-indigo-100 transition-colors">
+                연애 테스트
+              </Link>
+              <Link href="/quizzes/iq" className="text-white hover:text-indigo-100 transition-colors">
+                IQ 테스트
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div className="container mx-auto px-4 py-12">
         <header className="text-center mb-16">
           <div className="inline-block mb-4 bg-indigo-100 dark:bg-indigo-900/30 px-4 py-2 rounded-full text-indigo-700 dark:text-indigo-300 font-medium text-sm">
@@ -119,34 +146,36 @@ export default function Home() {
               </div>
             </Link>
 
-            <div className="h-full bg-white dark:bg-slate-800 rounded-2xl shadow-md overflow-hidden border border-slate-100 dark:border-slate-700 opacity-60 relative">
-              <div className="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm z-10">
-                <div className="bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 font-medium px-4 py-2 rounded-full">
-                  Coming Soon
-                </div>
-              </div>
-              <div className="relative h-56 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 flex items-center justify-center p-6">
-                <span className="text-4xl font-bold text-white">IQ</span>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-3">
-                  IQ 테스트
-                </h3>
-                <p className="text-slate-600 dark:text-slate-300 mb-4">
-                  당신의 지능지수를 테스트해보세요.
-                </p>
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-700">
-                  <div className="flex items-center text-sm text-amber-600 dark:text-amber-400">
-                    <Brain className="h-4 w-4 mr-1" />
-                    <span>준비 중</span>
-                  </div>
-                  <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
-                    <Clock className="h-4 w-4 mr-1" />
-                    <span>출시 예정</span>
+            {/* IQ 테스트 카드 - 이제 활성화 */}
+            <Link href="/quizzes/iq" className="group">
+              <div className="h-full bg-white dark:bg-slate-800 rounded-2xl shadow-md overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 border border-slate-100 dark:border-slate-700">
+                <div className="relative h-56 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 flex items-center justify-center p-6">
+                  <div className="absolute inset-0 bg-black/10"></div>
+                  <span className="relative text-4xl font-bold text-white">IQ</span>
+                  <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-2 py-1 rounded-full">
+                    NEW
                   </div>
                 </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-3">
+                    IQ 테스트
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 mb-4">
+                    당신의 지능지수를 테스트해보세요.
+                  </p>
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-700">
+                    <div className="flex items-center text-sm text-amber-600 dark:text-amber-400">
+                      <Brain className="h-4 w-4 mr-1" />
+                      <span>5,432+ 참여</span>
+                    </div>
+                    <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
+                      <Clock className="h-4 w-4 mr-1" />
+                      <span>약 10분</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         </section>
 
