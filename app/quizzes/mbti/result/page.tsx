@@ -192,22 +192,23 @@ function MbtiResultContent() {
   }
   
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <AdBanner type="horizontal" position="top" />
       
-      <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
         {/* 헤더 */}
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6">
-          <h1 className="text-white text-2xl md:text-3xl font-bold text-center">
+        <div className="bg-gradient-to-r from-indigo-600 to-violet-600 p-8">
+          <h1 className="text-white text-3xl md:text-4xl font-bold text-center">
             당신의 원피스 캐릭터는
           </h1>
+          <p className="text-indigo-100 text-center mt-2">MBTI 성격 유형에 기반한 캐릭터 분석</p>
         </div>
         
         {/* 결과 내용 */}
-        <div className="p-6">
+        <div className="p-8">
           {/* 캐릭터 기본 정보 */}
-          <div className="flex flex-col md:flex-row items-center mb-6">
-            <div className="w-[300px] h-[370px] rounded-lg overflow-hidden flex-shrink-0 mx-auto md:mx-0">
+          <div className="flex flex-col md:flex-row gap-8 mb-10">
+            <div className="w-[300px] h-[370px] rounded-xl overflow-hidden flex-shrink-0 mx-auto md:mx-0 shadow-lg border-4 border-indigo-100 dark:border-indigo-900">
               <Image 
                 src={result.image} 
                 alt={result.characterName} 
@@ -221,47 +222,71 @@ function MbtiResultContent() {
                 unoptimized
               />
             </div>
-            <div className="text-center md:text-left">
-              <div className="flex items-center justify-center md:justify-start mb-2">
-                <span className="text-5xl mr-3">{result.emoji}</span>
-                <h2 className="text-2xl md:text-3xl font-bold">{result.characterName}</h2>
+            <div className="text-center md:text-left flex flex-col justify-center">
+              <div className="inline-block px-4 py-1 bg-indigo-100 dark:bg-indigo-900 rounded-full text-indigo-800 dark:text-indigo-200 text-sm font-medium mb-3">
+                {result.type}
               </div>
-              <p className="text-gray-600 dark:text-gray-300 mb-2">{result.type} - 원피스</p>
-              <p className="text-gray-700 dark:text-gray-200 text-lg">{result.description}</p>
+              <div className="flex items-center justify-center md:justify-start mb-4">
+                <span className="text-5xl mr-4">{result.emoji}</span>
+                <h2 className="text-3xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">
+                  {result.characterName}
+                </h2>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 mb-3 italic">원피스 시리즈</p>
+              <p className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed">{result.description}</p>
             </div>
           </div>
           
           {/* 특성 섹션 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
             {/* 강점 */}
-            <div className="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg">
-              <h3 className="font-bold text-xl mb-3 text-blue-700 dark:text-blue-300">강점</h3>
-              <ul className="list-disc list-inside space-y-1">
+            <div className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 p-6 rounded-xl shadow-sm border border-indigo-100 dark:border-indigo-800">
+              <h3 className="font-bold text-xl mb-4 text-indigo-700 dark:text-indigo-300 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                강점
+              </h3>
+              <ul className="space-y-2">
                 {result.strengths.map((strength, idx) => (
-                  <li key={idx} className="text-gray-700 dark:text-gray-300">{strength}</li>
+                  <li key={idx} className="text-gray-700 dark:text-gray-300 flex items-start">
+                    <span className="inline-block w-2 h-2 rounded-full bg-indigo-400 mt-2 mr-2 flex-shrink-0"></span>
+                    {strength}
+                  </li>
                 ))}
               </ul>
             </div>
             
             {/* 약점 */}
-            <div className="bg-red-50 dark:bg-gray-700 p-4 rounded-lg">
-              <h3 className="font-bold text-xl mb-3 text-red-700 dark:text-red-300">약점</h3>
-              <ul className="list-disc list-inside space-y-1">
+            <div className="bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-900/30 dark:to-pink-900/30 p-6 rounded-xl shadow-sm border border-rose-100 dark:border-rose-800">
+              <h3 className="font-bold text-xl mb-4 text-rose-700 dark:text-rose-300 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+                약점
+              </h3>
+              <ul className="space-y-2">
                 {result.weaknesses.map((weakness, idx) => (
-                  <li key={idx} className="text-gray-700 dark:text-gray-300">{weakness}</li>
+                  <li key={idx} className="text-gray-700 dark:text-gray-300 flex items-start">
+                    <span className="inline-block w-2 h-2 rounded-full bg-rose-400 mt-2 mr-2 flex-shrink-0"></span>
+                    {weakness}
+                  </li>
                 ))}
               </ul>
             </div>
           </div>
           
           {/* 궁합 정보 */}
-          <div className="bg-purple-50 dark:bg-gray-700 p-4 rounded-lg mb-6">
-            <h3 className="font-bold text-xl mb-3 text-purple-700 dark:text-purple-300">
+          <div className="bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/30 dark:to-purple-900/30 p-6 rounded-xl shadow-sm border border-violet-100 dark:border-violet-800 mb-10">
+            <h3 className="font-bold text-xl mb-4 text-violet-700 dark:text-violet-300 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+              </svg>
               잘 맞는 MBTI 유형
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {result.compatibleTypes.map((type, idx) => (
-                <span key={idx} className="px-3 py-1 bg-purple-200 dark:bg-purple-800 rounded-full text-purple-800 dark:text-purple-200">
+                <span key={idx} className="px-4 py-2 bg-violet-200 dark:bg-violet-800 rounded-full text-violet-800 dark:text-violet-200 font-medium shadow-sm">
                   {type}
                 </span>
               ))}
@@ -269,8 +294,8 @@ function MbtiResultContent() {
           </div>
           
           {/* 공유 버튼 */}
-          <div className="mt-8">
-            <h3 className="text-center text-lg font-medium mb-4">결과 공유하기</h3>
+          <div className="mt-10 pb-4 border-t border-gray-200 dark:border-gray-700 pt-8">
+            <h3 className="text-center text-lg font-medium mb-5 text-gray-700 dark:text-gray-300">결과 공유하기</h3>
             <ShareButtons 
               title={`나의 원피스 캐릭터는 ${result.characterName}(${result.type})입니다!`} 
               hashtags={['원피스MBTI', '원피스캐릭터', 'MBTI테스트']}
@@ -278,10 +303,10 @@ function MbtiResultContent() {
           </div>
           
           {/* 다시하기 버튼 */}
-          <div className="mt-8 text-center">
+          <div className="mt-10 text-center">
             <Link 
               href="/quizzes/mbti" 
-              className="inline-block px-6 py-3 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors"
+              className="inline-block px-8 py-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium rounded-full hover:from-indigo-700 hover:to-violet-700 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1"
             >
               테스트 다시 하기
             </Link>
