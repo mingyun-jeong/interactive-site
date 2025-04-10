@@ -165,6 +165,20 @@ export default function IQTest() {
     setMounted(true);
   }, []);
   
+  useEffect(() => {
+    setMounted(true);
+    
+    // 페이지 방문 시 방문자 수 증가
+    const pathname = window.location.pathname;
+    incrementVisitorCount(pathname).then(result => {
+      if (result) {
+        console.log('방문자 수 업데이트 성공');
+      }
+    }).catch(error => {
+      console.error('방문자 수 업데이트 실패:', error);
+    });
+  }, []);
+  
   const handleAnswer = (questionId: number, value: string) => {
     // 현재 답변 저장
     setAnswers({
@@ -188,12 +202,6 @@ export default function IQTest() {
         const iqScore = calculateIQ();
         router.push(`/quizzes/iq/result?score=${iqScore}`);
       }, 500);
-    }
-  };
-  
-  const goToPreviousQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(prevQuestion => prevQuestion - 1);
     }
   };
   
@@ -326,7 +334,9 @@ export default function IQTest() {
           {/* 네비게이션 버튼 */}
           <div className="flex justify-between">
             <button
-              onClick={goToPreviousQuestion}
+              onClick={() => {
+                setCurrentQuestion(prevQuestion => prevQuestion - 1);
+              }}
               disabled={currentQuestion === 0}
               className={`flex items-center px-4 py-2 rounded-full ${
                 currentQuestion === 0
