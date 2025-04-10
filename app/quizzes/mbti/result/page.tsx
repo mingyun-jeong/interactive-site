@@ -213,8 +213,12 @@ function MbtiResultContent() {
                 alt={result.characterName} 
                 width={300} 
                 height={370}
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-fill"
                 priority
+                onError={() => {
+                  console.error(`Failed to load image: ${result.image}`);
+                }}
+                unoptimized
               />
             </div>
             <div className="text-center md:text-left">
