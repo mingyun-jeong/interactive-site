@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ Test Pattern Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .pattern {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 200px;
+        }
+        svg {
+            background-color: white;
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>IQ Test Pattern Generator</h1>
+    
+    <div class="container">
+        <!-- 접힌 종이 패턴 -->
+        <div class="pattern">
+            <h3>Folded Paper</h3>
+            <svg id="folded_paper" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                <rect x="50" y="50" width="100" height="100" fill="#f0f0f0" stroke="#000" stroke-width="2"/>
+                <line x1="50" y1="50" x2="150" y2="150" stroke="#000" stroke-width="1" stroke-dasharray="5,5"/>
+                <circle cx="75" cy="75" r="10" fill="white" stroke="#000"/>
+                <circle cx="125" cy="125" r="10" fill="white" stroke="#000"/>
+            </svg>
+            <button onclick="downloadSvg('folded_paper')">Download</button>
+        </div>
+
+        <!-- 패턴 시퀀스 -->
+        <div class="pattern">
+            <h3>Pattern Sequence</h3>
+            <svg id="pattern_sequence" width="200" height="80" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="30" height="30" fill="white" stroke="#000"/>
+                <circle cx="25" cy="25" r="5" fill="#000"/>
+                
+                <rect x="50" y="10" width="30" height="30" fill="white" stroke="#000"/>
+                <circle cx="65" cy="25" r="5" fill="#000"/>
+                <circle cx="58" cy="18" r="3" fill="#000"/>
+                
+                <rect x="90" y="10" width="30" height="30" fill="white" stroke="#000"/>
+                <circle cx="105" cy="25" r="5" fill="#000"/>
+                <circle cx="98" cy="18" r="3" fill="#000"/>
+                <circle cx="98" cy="32" r="3" fill="#000"/>
+                
+                <rect x="130" y="10" width="30" height="30" fill="white" stroke="#000"/>
+                <circle cx="145" cy="25" r="5" fill="#000"/>
+                <circle cx="138" cy="18" r="3" fill="#000"/>
+                <circle cx="138" cy="32" r="3" fill="#000"/>
+                <circle cx="152" cy="18" r="3" fill="#000"/>
+                
+                <text x="170" y="30" font-family="Arial" font-size="20">?</text>
+            </svg>
+            <button onclick="downloadSvg('pattern_sequence')">Download</button>
+        </div>
+
+        <!-- 옵션 A -->
+        <div class="pattern">
+            <h3>Option A</h3>
+            <svg id="option_a" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="80" height="80" fill="white" stroke="#000"/>
+                <line x1="10" y1="10" x2="90" y2="90" stroke="#000" stroke-width="1"/>
+                <circle cx="50" cy="50" r="20" fill="none" stroke="#000"/>
+            </svg>
+            <button onclick="downloadSvg('option_a')">Download</button>
+        </div>
+
+        <!-- 옵션 B -->
+        <div class="pattern">
+            <h3>Option B</h3>
+            <svg id="option_b" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="80" height="80" fill="white" stroke="#000"/>
+                <line x1="10" y1="90" x2="90" y2="10" stroke="#000" stroke-width="1"/>
+                <circle cx="50" cy="50" r="20" fill="none" stroke="#000"/>
+            </svg>
+            <button onclick="downloadSvg('option_b')">Download</button>
+        </div>
+
+        <!-- 옵션 C -->
+        <div class="pattern">
+            <h3>Option C</h3>
+            <svg id="option_c" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="80" height="80" fill="white" stroke="#000"/>
+                <line x1="10" y1="10" x2="90" y2="90" stroke="#000" stroke-width="1"/>
+                <line x1="10" y1="90" x2="90" y2="10" stroke="#000" stroke-width="1"/>
+                <circle cx="50" cy="50" r="20" fill="none" stroke="#000"/>
+            </svg>
+            <button onclick="downloadSvg('option_c')">Download</button>
+        </div>
+
+        <!-- 옵션 D -->
+        <div class="pattern">
+            <h3>Option D</h3>
+            <svg id="option_d" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="80" height="80" fill="white" stroke="#000"/>
+                <circle cx="50" cy="50" r="30" fill="none" stroke="#000"/>
+                <circle cx="50" cy="50" r="15" fill="#000"/>
+            </svg>
+            <button onclick="downloadSvg('option_d')">Download</button>
+        </div>
+
+        <!-- 패턴 A -->
+        <div class="pattern">
+            <h3>Pattern A</h3>
+            <svg id="pattern_a" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="25" y="25" width="50" height="50" fill="white" stroke="#000"/>
+                <circle cx="50" cy="50" r="20" fill="none" stroke="#000"/>
+                <line x1="30" y1="30" x2="70" y2="70" stroke="#000" stroke-width="1"/>
+            </svg>
+            <button onclick="downloadSvg('pattern_a')">Download</button>
+        </div>
+
+        <!-- 패턴 B -->
+        <div class="pattern">
+            <h3>Pattern B</h3>
+            <svg id="pattern_b" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="25" y="25" width="50" height="50" fill="white" stroke="#000"/>
+                <circle cx="50" cy="50" r="20" fill="none" stroke="#000"/>
+                <line x1="30" y1="70" x2="70" y2="30" stroke="#000" stroke-width="1"/>
+            </svg>
+            <button onclick="downloadSvg('pattern_b')">Download</button>
+        </div>
+
+        <!-- 패턴 C -->
+        <div class="pattern">
+            <h3>Pattern C</h3>
+            <svg id="pattern_c" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="25" y="25" width="50" height="50" fill="white" stroke="#000"/>
+                <polygon points="50,25 25,75 75,75" fill="none" stroke="#000"/>
+            </svg>
+            <button onclick="downloadSvg('pattern_c')">Download</button>
+        </div>
+
+        <!-- 패턴 D -->
+        <div class="pattern">
+            <h3>Pattern D</h3>
+            <svg id="pattern_d" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="25" y="25" width="50" height="50" fill="white" stroke="#000"/>
+                <polygon points="50,75 25,25 75,25" fill="none" stroke="#000"/>
+            </svg>
+            <button onclick="downloadSvg('pattern_d')">Download</button>
+        </div>
+    </div>
+
+    <script>
+        function downloadSvg(id) {
+            const svg = document.getElementById(id);
+            const serializer = new XMLSerializer();
+            let source = serializer.serializeToString(svg);
+            
+            // SVG를 데이터 URL로 변환
+            const svgBlob = new Blob([source], { type: 'image/svg+xml;charset=utf-8' });
+            const svgUrl = URL.createObjectURL(svgBlob);
+            
+            // PNG로 변환
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                
+                // Canvas에서 PNG 생성
+                const pngUrl = canvas.toDataURL('image/png');
+                
+                // 다운로드 링크 생성
+                const downloadLink = document.createElement('a');
+                downloadLink.href = pngUrl;
+                downloadLink.download = id + '.png';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            };
+            
+            img.src = svgUrl;
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,21 @@
+<svg width="200" height="80" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="10" width="30" height="30" fill="white" stroke="#000"/>
+    <circle cx="25" cy="25" r="5" fill="#000"/>
+    
+    <rect x="50" y="10" width="30" height="30" fill="white" stroke="#000"/>
+    <circle cx="65" cy="25" r="5" fill="#000"/>
+    <circle cx="58" cy="18" r="3" fill="#000"/>
+    
+    <rect x="90" y="10" width="30" height="30" fill="white" stroke="#000"/>
+    <circle cx="105" cy="25" r="5" fill="#000"/>
+    <circle cx="98" cy="18" r="3" fill="#000"/>
+    <circle cx="98" cy="32" r="3" fill="#000"/>
+    
+    <rect x="130" y="10" width="30" height="30" fill="white" stroke="#000"/>
+    <circle cx="145" cy="25" r="5" fill="#000"/>
+    <circle cx="138" cy="18" r="3" fill="#000"/>
+    <circle cx="138" cy="32" r="3" fill="#000"/>
+    <circle cx="152" cy="18" r="3" fill="#000"/>
+    
+    <text x="170" y="30" font-family="Arial" font-size="20">?</text>
+</svg> 
