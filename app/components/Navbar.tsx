@@ -41,19 +41,30 @@ export default function Navbar() {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         scrolled 
           ? "bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm" 
-          : "bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500"
+          : "bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500"
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo and site name */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className={`${scrolled ? "bg-indigo-100 dark:bg-indigo-900" : "bg-white"} p-2 rounded-full`}>
-              <Home className={`h-5 w-5 ${scrolled ? "text-indigo-700 dark:text-indigo-300" : "text-indigo-600"}`} />
+            <div className="relative h-10 w-10">
+              <Image 
+                src="/pickly-lab-logo.svg" 
+                alt="Pickly Lab Logo" 
+                width={40} 
+                height={40} 
+                className="object-contain"
+              />
             </div>
-            <span className={`font-bold text-lg ${scrolled ? "text-slate-800 dark:text-white" : "text-white"}`}>
-              인터랙티브 테스트
-            </span>
+            <div className="flex flex-col">
+              <span className={`font-bold text-lg leading-none ${scrolled ? "text-slate-800 dark:text-white" : "text-white"}`}>
+                Pickly Lab
+              </span>
+              <span className={`text-xs leading-tight ${scrolled ? "text-slate-600 dark:text-slate-300" : "text-blue-100"}`}>
+                반응을 이끌어내는 콘텐츠 실험실
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -62,8 +73,8 @@ export default function Navbar() {
               href="/quizzes/mbti" 
               className={`${scrolled 
                 ? isActive("/quizzes/mbti") 
-                  ? "text-indigo-600 dark:text-indigo-400 font-medium"
-                  : "text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400" 
+                  ? "text-blue-600 dark:text-blue-400 font-medium"
+                  : "text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400" 
                 : isActive("/quizzes/mbti")
                   ? "text-white font-medium"
                   : "text-white/80 hover:text-white"
