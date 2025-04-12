@@ -102,7 +102,7 @@ export default function Home() {
             <div className="h-px w-12 bg-blue-300 dark:bg-blue-700"></div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             <Link href="/quizzes/mbti" className="group">
               <div className="h-full bg-white dark:bg-slate-800/80 rounded-2xl shadow-sm overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 border border-slate-100 dark:border-slate-700/50">
                 <div className="relative h-56 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600 flex items-center justify-center p-6">
