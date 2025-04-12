@@ -27,22 +27,11 @@ export default function Home() {
           <div className="inline-block mb-4 bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full text-blue-700 dark:text-blue-300 font-medium text-sm">
             반응을 이끌어내는 콘텐츠 실험실
           </div>
-          <div className="flex justify-center mb-6">
-            <div className="relative w-24 h-24">
-              <Image 
-                src="/logo-image.png" 
-                alt="Pickly Lab Logo" 
-                width={96} 
-                height={96} 
-                className="object-contain"
-              />
-            </div>
-          </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 text-transparent bg-clip-text">
             Pickly Lab
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            재미있고 몰입감 있는 심리 테스트와 퀴즈를 통해 자신을 발견하고 친구들과 공유해보세요.
+            재미있고 몰입감 있는 심리 테스트와 퀴즈 결과를 친구들과 공유해보세요.
           </p>
           
           <div className="mt-10">

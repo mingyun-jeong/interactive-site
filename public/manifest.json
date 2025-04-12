@@ -1,7 +1,7 @@
 {
   "name": "Pickly Lab - 반응을 이끌어내는 콘텐츠 실험실",
   "short_name": "Pickly Lab",
-  "description": "재미있고 몰입감 있는 심리 테스트와 퀴즈를 통해 자신을 발견하고 친구들과 공유해보세요.",
+  "description": "재미있고 몰입감 있는 심리 테스트와 퀴즈 결과를 친구들과 공유해보세요.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
