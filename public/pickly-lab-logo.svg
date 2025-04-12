@@ -1,0 +1,22 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- 실험실 플라스크 배경 -->
+  <path d="M256 64 C180 64, 155 110, 155 256 C155 402, 180 448, 256 448 C332 448, 357 402, 357 256 C357 110, 332 64, 256 64" 
+        fill="#1e293b" stroke="none" />
+  
+  <!-- 플라스크 내부 -->
+  <path d="M190 300 L 226 256 L 190 170 L 322 170 L 286 256 L 322 300 L 190 300" 
+        fill="#60a5fa" stroke="none" />
+  
+  <!-- 거품 -->
+  <circle cx="220" cy="140" r="20" fill="#f97316" />
+  <circle cx="256" cy="120" r="15" fill="#f97316" />
+  <circle cx="280" cy="150" r="10" fill="#f97316" />
+  
+  <!-- 텍스트 -->
+  <text x="130" y="520" font-family="Arial, sans-serif" font-weight="bold" font-size="120" fill="#1e293b">
+    Pickly Lab
+  </text>
+  <text x="130" y="570" font-family="Arial, sans-serif" font-size="36" fill="#1e293b">
+    반응을 이끌어내는 콘텐츠 실험실
+  </text>
+</svg> 

@@ -1,4 +1,8 @@
-<svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="180" height="180" viewBox="0 0 180 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Pickly Lab</title>
+  <desc>Pickly Lab Apple 아이콘</desc>
+  
   <rect width="180" height="180" rx="40" fill="#ffffff"/>
   
   <!-- 실험실 플라스크 배경 -->

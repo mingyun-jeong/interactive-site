@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Home, Menu, X } from "lucide-react";
+import { Menu, X, Home } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -61,7 +62,7 @@ export default function Navbar() {
               href="/quizzes/mbti" 
               className={`${scrolled 
                 ? isActive("/quizzes/mbti") 
-                  ? "text-indigo-600 dark:text-indigo-400"
+                  ? "text-indigo-600 dark:text-indigo-400 font-medium"
                   : "text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400" 
                 : isActive("/quizzes/mbti")
                   ? "text-white font-medium"
@@ -74,7 +75,7 @@ export default function Navbar() {
               href="/quizzes/love" 
               className={`${scrolled 
                 ? isActive("/quizzes/love") 
-                  ? "text-indigo-600 dark:text-indigo-400" 
+                  ? "text-indigo-600 dark:text-indigo-400 font-medium" 
                   : "text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400" 
                 : isActive("/quizzes/love")
                   ? "text-white font-medium"
@@ -87,7 +88,7 @@ export default function Navbar() {
               href="/quizzes/iq" 
               className={`${scrolled 
                 ? isActive("/quizzes/iq") 
-                  ? "text-indigo-600 dark:text-indigo-400" 
+                  ? "text-indigo-600 dark:text-indigo-400 font-medium" 
                   : "text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400" 
                 : isActive("/quizzes/iq")
                   ? "text-white font-medium"
