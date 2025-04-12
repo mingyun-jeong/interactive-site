@@ -361,4 +361,39 @@ export default function IQTest() {
       </div>
     </div>
   );
+}
+
+// Question component
+function Question({ question, options, onAnswer, currentQuestion, totalQuestions }: { 
+  question: string; 
+  options: string[]; 
+  onAnswer: (option: string) => void;
+  currentQuestion: number;
+  totalQuestions: number;
+}) {
+  return (
+    <div className="w-full max-w-3xl mx-auto overflow-hidden">
+      <h3 className="mb-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+        문제 {currentQuestion}/{totalQuestions}
+      </h3>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8">
+        <div className="p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-semibold text-gray-800 dark:text-gray-200 mb-6 break-words">
+            {question}
+          </h2>
+          <div className="space-y-3">
+            {options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => onAnswer(option)}
+                className="w-full py-3 md:py-4 px-4 md:px-6 text-left bg-gray-50 hover:bg-indigo-50 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 break-words text-sm md:text-base"
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 } 

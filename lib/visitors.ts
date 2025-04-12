@@ -1,4 +1,4 @@
-import { supabase, VisitorStats } from './supabase';
+import { supabase, VisitorStats, DEFAULT_VISITOR_COUNT } from './supabase';
 
 // 방문자 수 데이터 타입
 interface VisitorData {
@@ -15,9 +15,14 @@ export async function incrementVisitorCount(pagePath: string): Promise<VisitorDa
   }
   
   try {
-    // Supabase 클라이언트가 초기화되지 않은 경우
+    // Supabase 클라이언트가 초기화되지 않은 경우 기본값 반환
     if (!supabase) {
-      return null;
+      console.log('Supabase 클라이언트가 초기화되지 않았습니다. 기본 방문자 수를 반환합니다.');
+      return {
+        totalCount: DEFAULT_VISITOR_COUNT,
+        pageVisits: { [pagePath]: 1 },
+        lastUpdated: Date.now()
+      };
     }
     
     // 먼저 현재 방문자 통계 데이터를 가져옴
@@ -29,7 +34,12 @@ export async function incrementVisitorCount(pagePath: string): Promise<VisitorDa
     
     // PGRST116: no rows returned - 이 오류는 예상되는 정상적인 경우임
     if (fetchError && fetchError.code !== 'PGRST116') {
-      return null;
+      console.error('방문자 통계 조회 중 오류:', fetchError);
+      return {
+        totalCount: DEFAULT_VISITOR_COUNT,
+        pageVisits: { [pagePath]: 1 },
+        lastUpdated: Date.now()
+      };
     }
     
     const now = new Date().toISOString();
@@ -78,8 +88,13 @@ export async function incrementVisitorCount(pagePath: string): Promise<VisitorDa
       };
     }
   } catch (error) {
-    // 실패해도 사용자 경험에 영향을 주지 않도록 null 반환
-    return null;
+    console.error('방문자 수 증가 중 오류 발생:', error);
+    // 실패해도 사용자 경험에 영향을 주지 않도록 기본값 반환
+    return {
+      totalCount: DEFAULT_VISITOR_COUNT,
+      pageVisits: { [pagePath]: 1 },
+      lastUpdated: Date.now()
+    };
   }
 }
 
@@ -92,7 +107,12 @@ export async function getVisitorStats(): Promise<VisitorData | null> {
   
   try {
     if (!supabase) {
-      return null;
+      console.log('Supabase 클라이언트가 초기화되지 않았습니다. 기본 방문자 수를 반환합니다.');
+      return {
+        totalCount: DEFAULT_VISITOR_COUNT,
+        pageVisits: {},
+        lastUpdated: Date.now()
+      };
     }
     
     const { data: stats, error } = await supabase
@@ -102,12 +122,17 @@ export async function getVisitorStats(): Promise<VisitorData | null> {
       .single();
     
     if (error && error.code !== 'PGRST116') {
-      return null;
+      console.error('방문자 통계 조회 중 오류:', error);
+      return {
+        totalCount: DEFAULT_VISITOR_COUNT,
+        pageVisits: {},
+        lastUpdated: Date.now()
+      };
     }
     
     if (!stats) {
       return {
-        totalCount: 0,
+        totalCount: DEFAULT_VISITOR_COUNT,
         pageVisits: {} as Record<string, number>,
         lastUpdated: Date.now()
       };
@@ -121,9 +146,10 @@ export async function getVisitorStats(): Promise<VisitorData | null> {
       lastUpdated: new Date(typedStats.last_updated).getTime()
     };
   } catch (error) {
+    console.error('방문자 통계 조회 중 오류 발생:', error);
     // 실패해도 사용자 경험에 영향을 주지 않도록 기본값 반환
     return {
-      totalCount: 0,
+      totalCount: DEFAULT_VISITOR_COUNT,
       pageVisits: {} as Record<string, number>,
       lastUpdated: Date.now()
     };
