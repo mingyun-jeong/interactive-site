@@ -15,7 +15,7 @@ import {
   Beaker
 } from "lucide-react";
 import { useEffect, useState } from 'react';
-import { getVisitorStats } from "@/lib/visitors";
+import { getVisitorStats, incrementVisitorCount } from "@/lib/visitors";
 
 // VisitorData 타입 정의
 interface VisitorData {
@@ -32,26 +32,41 @@ export default function Home() {
   });
 
   useEffect(() => {
-    const fetchVisitorStats = async () => {
+    const updateVisitorCount = async () => {
       try {
-        const stats = await getVisitorStats();
-        if (stats) {
-          setVisitorStats(stats);
+        // 방문자 수 증가
+        const pathname = window.location.pathname;
+        const updatedStats = await incrementVisitorCount(pathname);
+        
+        // 방문자 수가 업데이트되지 않았다면 가져오기만 함
+        if (!updatedStats) {
+          const stats = await getVisitorStats();
+          if (stats) {
+            setVisitorStats(stats);
+          }
+        } else {
+          setVisitorStats(updatedStats);
         }
       } catch (error) {
-        console.error('Failed to fetch visitor stats:', error);
+        console.error('Failed to update visitor count:', error);
       }
     };
 
-    fetchVisitorStats();
+    updateVisitorCount();
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-indigo-50 dark:from-slate-950 dark:to-indigo-950">
       <div className="container mx-auto px-4 py-12">
         <header className="text-center mb-16">
-          <div className="inline-block mb-4 bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full text-blue-700 dark:text-blue-300 font-medium text-sm">
-            반응을 이끌어내는 콘텐츠 실험실
+          <div className="flex justify-between items-center mb-4">
+            <div className="inline-block bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full text-blue-700 dark:text-blue-300 font-medium text-sm">
+              반응을 이끌어내는 콘텐츠 실험실
+            </div>
+            <div className="inline-block bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full text-blue-700 dark:text-blue-300 font-medium text-sm flex items-center">
+              <Users className="h-4 w-4 mr-2" />
+              <span>방문자 {visitorStats.totalCount.toLocaleString()}명</span>
+            </div>
           </div>
           <div className="flex justify-center mb-3">
             <div className="relative w-24 h-24">
@@ -63,9 +78,6 @@ export default function Home() {
                 className="object-contain"
               />
             </div>
-          </div>
-          <div className="text-sm text-slate-500 dark:text-slate-400 mb-3">
-            총 방문자 수: {visitorStats.totalCount.toLocaleString()}명
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 text-transparent bg-clip-text">
             Pickly Lab
