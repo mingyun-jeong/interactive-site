@@ -4,8 +4,8 @@ import { useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import ShareButtons from "@/components/ShareButtons";
-import AdBanner from "@/components/AdBanner";
+import { Share2, Twitter, Facebook, Repeat2 } from 'lucide-react';
+import ResultContent from './ResultContent';
 
 // 원피스 캐릭터 MBTI 데이터
 const mbtiData = {
@@ -193,8 +193,6 @@ function MbtiResultContent() {
   
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
-      <AdBanner type="horizontal" position="top" />
-      
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
         {/* 헤더 */}
         <div className="bg-gradient-to-r from-indigo-600 to-violet-600 p-8">
@@ -313,8 +311,6 @@ function MbtiResultContent() {
           </div>
         </div>
       </div>
-      
-      <AdBanner type="horizontal" position="bottom" />
     </div>
   );
 }

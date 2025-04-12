@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight, Brain, Users } from "lucide-react";
-import AdBanner from "@/components/AdBanner";
 import { incrementVisitorCount } from "@/lib/visitors";
 
 // Option type definition
@@ -244,9 +243,6 @@ export default function IQTest() {
           </div>
         </div>
         
-        {/* 상단 광고 배너 */}
-        <AdBanner type="horizontal" position="top" />
-        
         {/* 문제 카드 */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 md:p-8 max-w-3xl mx-auto mb-8">
           <div className="flex items-center mb-6">
@@ -362,9 +358,6 @@ export default function IQTest() {
             </div>
           </div>
         </div>
-        
-        {/* 하단 광고 배너 */}
-        <AdBanner type="horizontal" position="bottom" />
       </div>
     </div>
   );

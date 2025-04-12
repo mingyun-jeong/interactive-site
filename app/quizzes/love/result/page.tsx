@@ -4,8 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronLeft, Share2 } from 'lucide-react';
-import AdBanner from '@/components/AdBanner';
+import { ChevronLeft, Share2, Twitter, Facebook, Repeat2 } from 'lucide-react';
 import { incrementVisitorCount } from '@/lib/visitors';
 
 // 결과 유형 인터페이스
@@ -219,9 +218,6 @@ function ResultContent() {
           </Link>
         </div>
         
-        {/* 상단 광고 배너 */}
-        <AdBanner type="horizontal" position="top" />
-        
         <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden mb-8">
           {/* 결과 헤더 */}
           <div className="bg-gradient-to-r from-pink-400 to-red-400 p-6 text-white">
@@ -299,9 +295,6 @@ function ResultContent() {
             </div>
           </div>
         </div>
-        
-        {/* 하단 광고 배너 */}
-        <AdBanner type="horizontal" position="bottom" />
       </div>
     </div>
   );

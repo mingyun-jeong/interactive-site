@@ -3,9 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { Brain, ChevronLeft, Share2 } from "lucide-react";
+import { Brain, ChevronLeft, Share2, Twitter, Facebook, Repeat2 } from "lucide-react";
 import ShareButtons from "@/components/ShareButtons";
-import AdBanner from "@/components/AdBanner";
 import Image from "next/image";
 
 // IQ 점수 해석 데이터
@@ -182,8 +181,6 @@ function IQResultContent() {
   
   return (
     <div className="container mx-auto px-4 py-8 bg-gradient-to-b from-amber-50 to-yellow-100 dark:from-slate-900 dark:to-amber-900 min-h-screen">
-      <AdBanner type="horizontal" position="top" />
-      
       <div className="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700">
         {/* 헤더 */}
         <div className="bg-gradient-to-r from-amber-500 to-yellow-500 p-8">
@@ -370,8 +367,6 @@ function IQResultContent() {
           </div>
         </div>
       </div>
-      
-      <AdBanner type="horizontal" position="bottom" />
     </div>
   );
 }

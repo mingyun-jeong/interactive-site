@@ -3,10 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import AdBanner from '@/app/components/AdBanner';
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Card, CardContent } from "@/components/ui/card";
+import Image from 'next/image';
 import MbtiQuestion from '@/components/MbtiQuestion';
 
 // MBTI 질문 목록

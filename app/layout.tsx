@@ -11,10 +11,6 @@ export const metadata: Metadata = {
   description: '재미있고 몰입감 있는 심리 테스트와 퀴즈를 통해 자신을 발견하고 친구들과 공유해보세요.',
   keywords: 'MBTI, IQ, 테스트, 퀴즈, 심리테스트, 재미, 콘텐츠, Pickly Lab',
   manifest: '/manifest.json',
-  icons: {
-    icon: '/favicon.svg',
-    apple: '/apple-icon.svg',
-  },
   themeColor: '#1e293b'
 }
 
@@ -36,7 +32,7 @@ export default function RootLayout({
         />
         {/* 파비콘 직접 추가 */}
         <link rel="icon" href="/favicon.png" sizes="any" />
-        <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="apple-touch-icon" href="/logo-image.png" />
         
         <meta name="application-name" content="Pickly Lab" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

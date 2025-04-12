@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
-import AdBanner from '@/components/AdBanner';
 import { incrementVisitorCount } from '@/lib/visitors';
 
 // 타입 정의
@@ -245,9 +245,6 @@ export default function LoveTest() {
           </Link>
         </div>
         
-        {/* 상단 광고 배너 */}
-        <AdBanner type="horizontal" position="top" />
-        
         <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8 mb-8">
           <h1 className="text-3xl font-bold text-center mb-6 text-pink-600 dark:text-pink-400">
             K-드라마 연애 성향 테스트
@@ -316,9 +313,6 @@ export default function LoveTest() {
             </div>
           )}
         </div>
-        
-        {/* 하단 광고 배너 */}
-        <AdBanner type="horizontal" position="bottom" />
       </div>
     </div>
   );

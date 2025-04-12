@@ -50,7 +50,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center space-x-2">
             <div className="relative h-10 w-10">
               <Image 
-                src="/logo.png" 
+                src="/logo-image.png" 
                 alt="Pickly Lab Logo" 
                 width={40} 
                 height={40} 
