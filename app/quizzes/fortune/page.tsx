@@ -11,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { UserBirthInfo } from '@/types';
 import { incrementVisitorCount } from '@/lib/visitors';
-import AdBanner from '@/app/components/AdBanner';
 
 export default function FortunePage() {
   const router = useRouter();
@@ -62,46 +61,48 @@ export default function FortunePage() {
   };
 
   return (
-    <div className="container max-w-3xl mx-auto py-8 px-4">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">AI로 보는 사주</h1>
-        <p className="text-gray-600 dark:text-gray-300">
+    <div className="container max-w-4xl mx-auto py-12 px-4">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">AI로 보는 사주</h1>
+        <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
           정확한 생년월일시를 입력하면 AI가 당신의 운세를 분석해 드립니다.
         </p>
       </div>
       
-      <AdBanner type="horizontal" />
-      
-      <Card className="max-w-md mx-auto mt-8">
-        <CardHeader>
-          <CardTitle>생년월일 정보 입력</CardTitle>
-          <CardDescription>
-            정확한 사주 분석을 위해 생년월일과 시간을 입력해주세요. 시간을 모르시면 비워두셔도 됩니다.
+      <Card className="mx-auto border-0 shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500"></div>
+        
+        <CardHeader className="px-6 pt-8 pb-4">
+          <CardTitle className="text-2xl font-bold text-center">생년월일 정보 입력</CardTitle>
+          <CardDescription className="text-center mt-2">
+            정확한 사주 분석을 위해 정보를 입력해주세요
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid w-full items-center gap-2">
-              <Label htmlFor="name">이름 (선택사항)</Label>
+        
+        <CardContent className="px-6 pb-4">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="grid w-full items-center gap-3">
+              <Label htmlFor="name" className="text-base font-medium">이름 (선택사항)</Label>
               <Input
                 id="name"
                 placeholder="이름을 입력하세요"
                 value={userInfo.name}
                 onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+                className="rounded-lg h-11 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 transition-all"
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="year">출생년도</Label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+              <div className="space-y-3">
+                <Label htmlFor="year" className="text-base font-medium">출생년도</Label>
                 <Select
                   value={userInfo.birthYear.toString()}
                   onValueChange={(value) => setUserInfo({ ...userInfo, birthYear: parseInt(value) })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="rounded-lg h-11 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500">
                     <SelectValue placeholder="년도" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-[240px]">
                     {years.map((year) => (
                       <SelectItem key={year} value={year.toString()}>
                         {year}년
@@ -111,13 +112,13 @@ export default function FortunePage() {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="month">월</Label>
+              <div className="space-y-3">
+                <Label htmlFor="month" className="text-base font-medium">월</Label>
                 <Select
                   value={userInfo.birthMonth.toString()}
                   onValueChange={(value) => setUserInfo({ ...userInfo, birthMonth: parseInt(value) })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="rounded-lg h-11 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500">
                     <SelectValue placeholder="월" />
                   </SelectTrigger>
                   <SelectContent>
@@ -130,16 +131,16 @@ export default function FortunePage() {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="day">일</Label>
+              <div className="space-y-3">
+                <Label htmlFor="day" className="text-base font-medium">일</Label>
                 <Select
                   value={userInfo.birthDay.toString()}
                   onValueChange={(value) => setUserInfo({ ...userInfo, birthDay: parseInt(value) })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="rounded-lg h-11 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500">
                     <SelectValue placeholder="일" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-[240px]">
                     {days.map((day) => (
                       <SelectItem key={day} value={day.toString()}>
                         {day}일
@@ -149,17 +150,17 @@ export default function FortunePage() {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="hour">시간 (선택사항)</Label>
+              <div className="space-y-3">
+                <Label htmlFor="hour" className="text-base font-medium">시간 (선택)</Label>
                 <Select
-                  value={userInfo.birthHour !== undefined ? userInfo.birthHour.toString() : ''}
-                  onValueChange={(value) => setUserInfo({ ...userInfo, birthHour: value ? parseInt(value) : undefined })}
+                  value={userInfo.birthHour !== undefined ? userInfo.birthHour.toString() : 'unknown'}
+                  onValueChange={(value) => setUserInfo({ ...userInfo, birthHour: value !== 'unknown' ? parseInt(value) : undefined })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="rounded-lg h-11 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500">
                     <SelectValue placeholder="시간" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">모름</SelectItem>
+                  <SelectContent className="max-h-[240px]">
+                    <SelectItem value="unknown">모름</SelectItem>
                     {hours.map((hour) => (
                       <SelectItem key={hour} value={hour.toString()}>
                         {hour}시
@@ -170,48 +171,53 @@ export default function FortunePage() {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>성별</Label>
+            <div className="space-y-3">
+              <Label className="text-base font-medium">성별</Label>
               <RadioGroup
                 defaultValue="male"
                 value={userInfo.gender}
                 onValueChange={(value) => setUserInfo({ ...userInfo, gender: value as 'male' | 'female' })}
-                className="flex space-x-4"
+                className="flex space-x-8"
               >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="male" id="male" />
-                  <Label htmlFor="male">남성</Label>
+                <div className="flex items-center space-x-3">
+                  <RadioGroupItem value="male" id="male" className="text-indigo-500" />
+                  <Label htmlFor="male" className="font-medium">남성</Label>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="female" id="female" />
-                  <Label htmlFor="female">여성</Label>
+                <div className="flex items-center space-x-3">
+                  <RadioGroupItem value="female" id="female" className="text-indigo-500" />
+                  <Label htmlFor="female" className="font-medium">여성</Label>
                 </div>
               </RadioGroup>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="question">특별히 알고 싶은 질문 (선택사항)</Label>
+            <div className="space-y-3">
+              <Label htmlFor="question" className="text-base font-medium">특별히 알고 싶은 질문 (선택사항)</Label>
               <Textarea
                 id="question"
                 placeholder="예: 올해 이직 운은 어떤가요? 또는 연애운에 대해 알고 싶어요."
                 value={customQuestion}
                 onChange={(e) => setCustomQuestion(e.target.value)}
+                className="rounded-lg min-h-[100px] border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 transition-all"
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? '분석 중...' : '운세 보기'}
+            <Button 
+              type="submit" 
+              className="w-full h-12 text-base font-medium rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5" 
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? '분석 중...' : '나의 운세 보기'}
             </Button>
           </form>
         </CardContent>
+        
+        <CardFooter className="px-6 py-5 bg-gray-50 dark:bg-gray-800/80 border-t border-gray-100 dark:border-gray-700/50">
+          <div className="text-center w-full text-sm text-gray-500 dark:text-gray-400">
+            <p>* 이 테스트는 재미로 즐기는 용도로, 실제 사주 분석과는 차이가 있을 수 있습니다.</p>
+            <p>* 입력하신 개인정보는 테스트 목적으로만 사용됩니다.</p>
+          </div>
+        </CardFooter>
       </Card>
-      
-      <div className="mt-8 text-center text-sm text-muted-foreground">
-        <p>* 이 테스트는 재미로 즐기는 용도로, 실제 사주 분석과는 차이가 있을 수 있습니다.</p>
-        <p>* 입력하신 개인정보는 테스트 목적으로만 사용됩니다.</p>
-      </div>
-      
-      <AdBanner type="horizontal" className="mt-8" />
     </div>
   );
 } 
