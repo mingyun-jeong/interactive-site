@@ -1,10 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import MbtiQuestion from '@/components/MbtiQuestion';
+import { Button } from '@/components/ui/button';
+import AdBanner from '@/app/components/AdBanner';
+import ShareButtons from '@/components/ShareButtons';
+import { Metadata } from 'next';
 
 // MBTI 질문 목록
 const questions = [
@@ -132,76 +136,79 @@ const questions = [
 
 const MBTIQuiz = () => {
   const router = useRouter();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
   const [loading, setLoading] = useState(false);
 
+  const progressPercentage = (Object.keys(answers).length / questions.length) * 100;
+
   const handleAnswer = (value: string) => {
-    const newAnswers = { ...answers, [currentQuestion]: value };
+    const newAnswers = { ...answers, [currentQuestionIndex]: value };
     setAnswers(newAnswers);
     
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       calculateResult(newAnswers);
     }
   };
 
-  const calculateResult = (answers: Record<string, string>) => {
+  const calculateResult = (answers: Record<number, string>) => {
     setLoading(true);
     
-    const counts = {
+    let counts = {
       E: 0, I: 0,
       S: 0, N: 0,
       T: 0, F: 0,
       J: 0, P: 0
     };
     
-    Object.values(answers).forEach((value) => {
+    Object.values(answers).forEach(value => {
       counts[value as keyof typeof counts]++;
     });
     
-    const mbti = [
+    const type = [
       counts.E > counts.I ? 'E' : 'I',
       counts.S > counts.N ? 'S' : 'N',
       counts.T > counts.F ? 'T' : 'F',
       counts.J > counts.P ? 'J' : 'P'
     ].join('');
     
-    router.push(`/quizzes/mbti/result?type=${mbti}`);
+    setTimeout(() => {
+      router.push(`/quizzes/mbti/result?type=${type}`);
+    }, 1500);
   };
 
-  const progress = ((currentQuestion + 1) / questions.length) * 100;
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-center mb-8">원피스 MBTI 테스트</h1>
-        
-        <div className="w-full bg-gray-200 rounded-full h-2.5 mb-8 dark:bg-gray-700">
-          <div 
-            className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-in-out" 
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
-        
-        {!loading && (
-          <div className="max-w-2xl mx-auto">
-            <MbtiQuestion
-              question={questions[currentQuestion]}
-              onAnswer={handleAnswer}
-            />
-            
-            <div className="text-center mt-6 text-gray-500 dark:text-gray-400">
-              {currentQuestion + 1} / {questions.length}
-            </div>
-          </div>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl md:text-3xl font-bold text-center mb-6">MBTI 성격유형 테스트</h1>
+      
+      <div className="mb-6 relative h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div 
+          className="absolute h-full bg-blue-500 transition-all duration-300"
+          style={{ width: `${progressPercentage}%` }}
+        ></div>
+      </div>
+      
+      <div className="mb-8">
+        <p className="text-center text-gray-600 dark:text-gray-300">
+          질문 {currentQuestionIndex + 1} / {questions.length}
+        </p>
+      </div>
+      
+      <div className="mb-8">
+        {!loading && currentQuestionIndex < questions.length && (
+          <MbtiQuestion 
+            question={questions[currentQuestionIndex]}
+            onAnswer={handleAnswer}
+          />
         )}
         
         {loading && (
-          <div className="flex justify-center items-center h-64">
+          <div className="flex flex-col justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            <p className="ml-3 text-lg">결과 분석 중...</p>
+            <p className="mt-4 text-lg font-medium text-gray-700 dark:text-gray-300">결과 분석 중...</p>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">당신의 MBTI 유형을 계산하고 있습니다!</p>
           </div>
         )}
       </div>
@@ -209,4 +216,14 @@ const MBTIQuiz = () => {
   );
 };
 
-export default MBTIQuiz; 
+export default function MBTIQuizPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    }>
+      <MBTIQuiz />
+    </Suspense>
+  );
+} 
