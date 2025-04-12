@@ -129,6 +129,33 @@ export default function Home() {
               </div>
             </Link>
 
+            {/* 사주 테스트 카드 */}
+            <Link href="/quizzes/fortune" className="group">
+              <div className="h-full bg-white dark:bg-slate-800/80 rounded-2xl shadow-sm overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 border border-slate-100 dark:border-slate-700/50">
+                <div className="relative h-56 bg-gradient-to-r from-purple-500 via-violet-500 to-purple-600 flex items-center justify-center p-6">
+                  <div className="absolute inset-0 bg-black/5"></div>
+                  <span className="relative text-4xl font-bold text-white">사주</span>
+                  <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-2 py-1 rounded-full">
+                    NEW
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-3">
+                    AI로 보는 사주
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-300 mb-4">
+                    당신의 사주를 AI가 분석하여 운세를 알려드립니다.
+                  </p>
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-700/50">
+                    <div className="flex items-center text-sm text-purple-600 dark:text-purple-400">
+                      <Clock className="h-4 w-4 mr-1" />
+                      <span>약 3분</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+
             {/* 연애 스타일 테스트 카드 */}
             <Link href="/quizzes/love" className="group">
               <div className="h-full bg-white dark:bg-slate-800/80 rounded-2xl shadow-sm overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 border border-slate-100 dark:border-slate-700/50">
