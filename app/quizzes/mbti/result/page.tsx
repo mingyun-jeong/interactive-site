@@ -5,7 +5,6 @@ import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Share2, Twitter, Facebook, Repeat2 } from 'lucide-react';
-import ResultContent from './ResultContent';
 
 // 원피스 캐릭터 MBTI 데이터
 const mbtiData = {
@@ -170,6 +169,47 @@ const mbtiData = {
     compatibleTypes: ['ESFP', 'ESTP']
   }
 };
+
+// ShareButtons 컴포넌트 추가
+function ShareButtons({ title, hashtags }: { title: string, hashtags: string[] }) {
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  
+  return (
+    <div className="flex flex-wrap justify-center gap-3">
+      <a 
+        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(shareUrl)}&hashtags=${hashtags.join(',')}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-full flex items-center"
+      >
+        <Twitter className="w-5 h-5 mr-2" />
+        <span>트위터</span>
+      </a>
+      <a 
+        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full flex items-center"
+      >
+        <Facebook className="w-5 h-5 mr-2" />
+        <span>페이스북</span>
+      </a>
+      <button 
+        onClick={() => {
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(shareUrl)
+              .then(() => alert('URL이 클립보드에 복사되었습니다!'))
+              .catch(err => console.error('Could not copy URL: ', err));
+          }
+        }}
+        className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-full flex items-center"
+      >
+        <Share2 className="w-5 h-5 mr-2" />
+        <span>URL 복사</span>
+      </button>
+    </div>
+  );
+}
 
 function MbtiResultContent() {
   const searchParams = useSearchParams();
