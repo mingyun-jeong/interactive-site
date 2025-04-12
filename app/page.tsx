@@ -1,6 +1,5 @@
 "use client";
 
-import { Metadata } from 'next';
 import Link from "next/link";
 import Image from "next/image";
 import { 
@@ -18,19 +17,27 @@ import {
 import { useEffect, useState } from 'react';
 import { getVisitorStats } from "@/lib/visitors";
 
-export const metadata: Metadata = {
-  title: 'Pickly Lab - 반응을 이끌어내는 콘텐츠 실험실',
-  description: 'MBTI 성격 유형으로 나와 닮은 원피스 캐릭터를 찾아보세요.',
-};
+// VisitorData 타입 정의
+interface VisitorData {
+  totalCount: number;
+  pageVisits: Record<string, number>;
+  lastUpdated: number;
+}
 
 export default function Home() {
-  const [visitorStats, setVisitorStats] = useState({ total: 0 });
+  const [visitorStats, setVisitorStats] = useState<VisitorData>({
+    totalCount: 0,
+    pageVisits: {},
+    lastUpdated: Date.now()
+  });
 
   useEffect(() => {
     const fetchVisitorStats = async () => {
       try {
         const stats = await getVisitorStats();
-        setVisitorStats(stats);
+        if (stats) {
+          setVisitorStats(stats);
+        }
       } catch (error) {
         console.error('Failed to fetch visitor stats:', error);
       }
@@ -58,7 +65,7 @@ export default function Home() {
             </div>
           </div>
           <div className="text-sm text-slate-500 dark:text-slate-400 mb-3">
-            총 방문자 수: {visitorStats.total.toLocaleString()}명
+            총 방문자 수: {visitorStats.totalCount.toLocaleString()}명
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 text-transparent bg-clip-text">
             Pickly Lab

@@ -1,0 +1,7 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+작업이 완료되면 빌드를 실행한다
+빌드가 성공하면 git 커밋과 푸시를 진행한다.
