@@ -270,9 +270,14 @@ export default function IQTest() {
             {question.image && (
               <div className="flex justify-center my-6">
                 <div className="relative w-64 h-64 bg-slate-100 dark:bg-slate-700 rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-slate-400">
-                    이미지 예시
-                  </div>
+                  <Image
+                    src={question.image}
+                    alt={`문제 ${question.id} 이미지`}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                  />
                 </div>
               </div>
             )}
@@ -302,9 +307,13 @@ export default function IQTest() {
                 
                 {option.image && (
                   <div className="mt-3 relative w-full h-32 bg-slate-100 dark:bg-slate-600 rounded-lg overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center text-slate-400">
-                      보기 이미지
-                    </div>
+                    <Image
+                      src={option.image}
+                      alt={`옵션 ${option.id} 이미지`}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
                   </div>
                 )}
               </button>
