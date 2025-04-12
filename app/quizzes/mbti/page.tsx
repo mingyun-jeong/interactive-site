@@ -180,23 +180,23 @@ const MBTIQuiz = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl md:text-3xl font-bold text-center mb-6">MBTI 성격유형 테스트</h1>
+    <div className="container mx-auto px-3 sm:px-4 py-6 max-w-md">
+      <h1 className="text-xl md:text-2xl font-bold text-center mb-4">MBTI 성격유형 테스트</h1>
       
-      <div className="mb-6 relative h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="mb-4 relative h-2 bg-gray-200 rounded-full overflow-hidden">
         <div 
           className="absolute h-full bg-blue-500 transition-all duration-300"
           style={{ width: `${progressPercentage}%` }}
         ></div>
       </div>
       
-      <div className="mb-8">
-        <p className="text-center text-gray-600 dark:text-gray-300">
+      <div className="mb-4">
+        <p className="text-center text-gray-600 dark:text-gray-300 text-sm">
           질문 {currentQuestionIndex + 1} / {questions.length}
         </p>
       </div>
       
-      <div className="mb-8">
+      <div className="mb-6">
         {!loading && currentQuestionIndex < questions.length && (
           <MbtiQuestion 
             question={questions[currentQuestionIndex]}
@@ -205,10 +205,10 @@ const MBTIQuiz = () => {
         )}
         
         {loading && (
-          <div className="flex flex-col justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            <p className="mt-4 text-lg font-medium text-gray-700 dark:text-gray-300">결과 분석 중...</p>
-            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">당신의 MBTI 유형을 계산하고 있습니다!</p>
+          <div className="flex flex-col justify-center items-center h-48">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+            <p className="mt-4 text-base font-medium text-gray-700 dark:text-gray-300">결과 분석 중...</p>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">당신의 MBTI 유형을 계산하고 있습니다!</p>
           </div>
         )}
       </div>
