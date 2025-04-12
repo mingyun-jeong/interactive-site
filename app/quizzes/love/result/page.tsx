@@ -23,8 +23,8 @@ const maleResults: Record<string, ResultType> = {
   "로맨티스트": {
     title: "로맨틱 드림보이",
     description: "당신은 사랑에 올인하는 낭만적인 사람입니다. 작은 이벤트와 감동적인 고백을 준비하는 데 소질이 있어요.",
-    character: "도민익",
-    drama: "뷰티 인사이드",
+    character: "남도산",
+    drama: "스타트업",
     image: "/images/love/romantic_male.jpg",
     traits: [
       "작은 기념일도 놓치지 않고 챙김",
@@ -36,8 +36,8 @@ const maleResults: Record<string, ResultType> = {
   "현실주의자": {
     title: "믿음직한 인생 파트너",
     description: "당신은 안정적이고 신뢰할 수 있는 파트너입니다. 현실적인 계획과 꾸준함으로 관계를 단단하게 만들어가요.",
-    character: "최우식",
-    drama: "우리, 사랑했을까",
+    character: "차은호",
+    drama: "로맨스는 별책부록",
     image: "/images/love/realist_male.jpg",
     traits: [
       "약속을 중요하게 여기고 책임감이 강함",
@@ -49,8 +49,8 @@ const maleResults: Record<string, ResultType> = {
   "밀당파": {
     title: "매력적인 츤데레",
     description: "당신은 적절한 거리감으로 상대방의 마음을 설레게 하는 데 능숙합니다. 쿨한 매력과 따뜻함 사이의 갭이 매력적이에요.",
-    character: "김수현",
-    drama: "사랑의 불시착",
+    character: "이동진",
+    drama: "월계수 양복점 신사들",
     image: "/images/love/push_pull_male.jpg",
     traits: [
       "매력적인 미스터리함으로 상대의 호기심을 자극",
@@ -62,8 +62,8 @@ const maleResults: Record<string, ResultType> = {
   "감성가": {
     title: "감성 충만 로맨티스트",
     description: "당신은 깊은 감성과 따뜻한 공감 능력을 가진 사람입니다. 상대방의 미묘한 감정 변화도 놓치지 않는 세심함이 매력이에요.",
-    character: "정해인",
-    drama: "밥 잘 사주는 예쁜 누나",
+    character: "정환",
+    drama: "응답하라 1988",
     image: "/images/love/emotional_male.jpg",
     traits: [
       "감정을 섬세하게 표현하고 공감 능력이 뛰어남",
@@ -75,8 +75,8 @@ const maleResults: Record<string, ResultType> = {
   "직진파": {
     title: "솔직 담백 스트레이트",
     description: "당신은 솔직하고 직설적인 매력이 있습니다. 마음에 드는 사람에게 거침없이 다가가는 용기가 있어요.",
-    character: "박서준",
-    drama: "이태원 클라쓰",
+    character: "김탄",
+    drama: "상속자들",
     image: "/images/love/straightforward_male.jpg",
     traits: [
       "마음에 드는 사람에게 적극적으로 표현",
@@ -87,12 +87,13 @@ const maleResults: Record<string, ResultType> = {
   }
 };
 
+
 const femaleResults: Record<string, ResultType> = {
   "로맨티스트": {
     title: "로맨틱 드림걸",
     description: "당신은 사랑에 올인하는 낭만적인 사람입니다. 작은 이벤트와 감동적인 고백을 준비하는 데 소질이 있어요.",
-    character: "윤세리",
-    drama: "사랑의 불시착",
+    character: "백설희",
+    drama: "쌈, 마이웨이",
     image: "/images/love/romantic_female.jpg",
     traits: [
       "작은 기념일도 놓치지 않고 챙김",
@@ -104,8 +105,8 @@ const femaleResults: Record<string, ResultType> = {
   "현실주의자": {
     title: "믿음직한 인생 파트너",
     description: "당신은 안정적이고 신뢰할 수 있는 파트너입니다. 현실적인 계획과 꾸준함으로 관계를 단단하게 만들어가요.",
-    character: "강단이",
-    drama: "이상한 변호사 우영우",
+    character: "윤혜진",
+    drama: "갯마을 차차차",
     image: "/images/love/realist_female.jpg",
     traits: [
       "약속을 중요하게 여기고 책임감이 강함",
@@ -117,8 +118,8 @@ const femaleResults: Record<string, ResultType> = {
   "밀당파": {
     title: "매력적인 츤데레",
     description: "당신은 적절한 거리감으로 상대방의 마음을 설레게 하는 데 능숙합니다. 쿨한 매력과 따뜻함 사이의 갭이 매력적이에요.",
-    character: "송하경",
-    drama: "사내맞선",
+    character: "장만월",
+    drama: "호텔 델루나",
     image: "/images/love/push_pull_female.jpg",
     traits: [
       "매력적인 미스터리함으로 상대의 호기심을 자극",
@@ -130,8 +131,8 @@ const femaleResults: Record<string, ResultType> = {
   "감성가": {
     title: "감성 충만 로맨티스트",
     description: "당신은 깊은 감성과 따뜻한 공감 능력을 가진 사람입니다. 상대방의 미묘한 감정 변화도 놓치지 않는 세심함이 매력이에요.",
-    character: "윤진아",
-    drama: "밥 잘 사주는 예쁜 누나",
+    character: "서희수",
+    drama: "마인",
     image: "/images/love/emotional_female.jpg",
     traits: [
       "감정을 섬세하게 표현하고 공감 능력이 뛰어남",
@@ -143,8 +144,8 @@ const femaleResults: Record<string, ResultType> = {
   "직진파": {
     title: "솔직 담백 스트레이트",
     description: "당신은 솔직하고 직설적인 매력이 있습니다. 마음에 드는 사람에게 거침없이 다가가는 용기가 있어요.",
-    character: "최애리",
-    drama: "유미의 세포들",
+    character: "성나정",
+    drama: "응답하라 1994",
     image: "/images/love/straightforward_female.jpg",
     traits: [
       "마음에 드는 사람에게 적극적으로 표현",
@@ -154,6 +155,7 @@ const femaleResults: Record<string, ResultType> = {
     advice: "너무 직진하면 상대방이 부담을 느낄 수 있어요. 상대방의 반응과 페이스도 존중해보세요."
   }
 };
+
 
 // 결과 컴포넌트
 function ResultContent() {
