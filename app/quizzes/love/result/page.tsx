@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import AdBanner from '@/components/AdBanner';
 import { incrementVisitorCount } from '@/lib/visitors';
@@ -263,12 +264,15 @@ function ResultContent() {
               </div>
               
               <div className="flex-1 order-1 md:order-2">
-                <div className="bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden h-48 md:h-64 flex items-center justify-center">
-                  <div className="text-gray-400 text-center p-4">
-                    {/* 실제 이미지가 준비되면 여기에 이미지 태그 사용 */}
-                    <p className="text-xl">{result.character} 이미지</p>
-                    <p className="text-sm mt-2">{result.drama}</p>
-                  </div>
+                <div className="bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden h-48 md:h-64 relative">
+                  <Image
+                    src={result.image}
+                    alt={`${result.character} from ${result.drama}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                  />
                 </div>
               </div>
             </div>
