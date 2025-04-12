@@ -264,7 +264,7 @@ function ResultContent() {
               </div>
               
               <div className="flex-1 order-1 md:order-2">
-                <div className="bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden h-48 md:h-64 relative">
+                <div className="rounded-lg overflow-hidden h-48 md:h-64 relative">
                   <Image
                     src={result.image}
                     alt={`${result.character} from ${result.drama}`}
