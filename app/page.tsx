@@ -1,3 +1,5 @@
+"use client";
+
 import { Metadata } from 'next';
 import Link from "next/link";
 import Image from "next/image";
@@ -13,6 +15,8 @@ import {
   Share2,
   Beaker
 } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { getVisitorStats } from "@/lib/visitors";
 
 export const metadata: Metadata = {
   title: 'Pickly Lab - 반응을 이끌어내는 콘텐츠 실험실',
@@ -20,12 +24,41 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const [visitorStats, setVisitorStats] = useState({ total: 0 });
+
+  useEffect(() => {
+    const fetchVisitorStats = async () => {
+      try {
+        const stats = await getVisitorStats();
+        setVisitorStats(stats);
+      } catch (error) {
+        console.error('Failed to fetch visitor stats:', error);
+      }
+    };
+
+    fetchVisitorStats();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-indigo-50 dark:from-slate-950 dark:to-indigo-950">
       <div className="container mx-auto px-4 py-12">
         <header className="text-center mb-16">
           <div className="inline-block mb-4 bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full text-blue-700 dark:text-blue-300 font-medium text-sm">
             반응을 이끌어내는 콘텐츠 실험실
+          </div>
+          <div className="flex justify-center mb-3">
+            <div className="relative w-24 h-24">
+              <Image 
+                src="/logo-image.png" 
+                alt="Pickly Lab Logo" 
+                width={96} 
+                height={96} 
+                className="object-contain"
+              />
+            </div>
+          </div>
+          <div className="text-sm text-slate-500 dark:text-slate-400 mb-3">
+            총 방문자 수: {visitorStats.total.toLocaleString()}명
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 text-transparent bg-clip-text">
             Pickly Lab
@@ -73,10 +106,6 @@ export default function Home() {
                   </p>
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-700/50">
                     <div className="flex items-center text-sm text-blue-600 dark:text-blue-400">
-                      <Users className="h-4 w-4 mr-1" />
-                      <span>12,345+ 참여</span>
-                    </div>
-                    <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
                       <Clock className="h-4 w-4 mr-1" />
                       <span>약 5분</span>
                     </div>
@@ -104,10 +133,6 @@ export default function Home() {
                   </p>
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-700/50">
                     <div className="flex items-center text-sm text-pink-600 dark:text-pink-400">
-                      <Heart className="h-4 w-4 mr-1" />
-                      <span>9,876+ 참여</span>
-                    </div>
-                    <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
                       <Clock className="h-4 w-4 mr-1" />
                       <span>약 3분</span>
                     </div>
@@ -135,10 +160,6 @@ export default function Home() {
                   </p>
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-700/50">
                     <div className="flex items-center text-sm text-amber-600 dark:text-amber-400">
-                      <Brain className="h-4 w-4 mr-1" />
-                      <span>5,432+ 참여</span>
-                    </div>
-                    <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
                       <Clock className="h-4 w-4 mr-1" />
                       <span>약 10분</span>
                     </div>
