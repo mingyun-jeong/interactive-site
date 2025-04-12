@@ -59,13 +59,9 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-indigo-50 dark:from-slate-950 dark:to-indigo-950">
       <div className="container mx-auto px-4 py-12">
         <header className="text-center mb-16">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-center items-center mb-4">
             <div className="inline-block bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full text-blue-700 dark:text-blue-300 font-medium text-sm">
               반응을 이끌어내는 콘텐츠 실험실
-            </div>
-            <div className="inline-block bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full text-blue-700 dark:text-blue-300 font-medium text-sm flex items-center">
-              <Users className="h-4 w-4 mr-2" />
-              <span>방문자 {visitorStats.totalCount.toLocaleString()}명</span>
             </div>
           </div>
           <div className="flex justify-center mb-3">
