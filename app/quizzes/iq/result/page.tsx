@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Brain, ChevronLeft, Share2 } from "lucide-react";
 import ShareButtons from "@/components/ShareButtons";
 import AdBanner from "@/components/AdBanner";
+import Image from "next/image";
 
 // IQ 점수 해석 데이터
 const iqRanges = [
@@ -119,6 +120,28 @@ const iqRanges = [
   }
 ];
 
+// 동물 IQ 비교 데이터
+const animalIqComparisons = [
+  { score: 140, animal: "돌고래", description: "돌고래는 가장 지능이 높은, 인간 이외의 동물로 알려져 있습니다. 복잡한 문제 해결 능력과 도구 사용, 자기 인식을 가지고 있습니다." },
+  { score: 130, animal: "침팬지", description: "침팬지는 도구를 사용하고, 언어를 배우며, 심지어 계획을 세우는 등 인간과 매우 유사한 인지 능력을 보입니다." },
+  { score: 120, animal: "고릴라", description: "고릴라는 추상적 사고가 가능하며, 문제 해결 능력이 뛰어나고 감정 이해와 표현이 가능합니다." },
+  { score: 110, animal: "코끼리", description: "코끼리는 뛰어난 기억력과 공감 능력을 가지고 있으며, 복잡한 사회적 구조를 이해하고 유지합니다." },
+  { score: 100, animal: "까마귀", description: "까마귀는 도구를 사용하고 복잡한 문제를 해결할 수 있는 놀라운 지능을 가지고 있습니다. 인과 관계를 이해하는 능력이 매우 뛰어납니다." },
+  { score: 95, animal: "오랑우탄", description: "오랑우탄은 도구를 사용하고, 새로운 상황에 적응하는 창의적인 문제 해결 능력을 가지고 있습니다." },
+  { score: 90, animal: "돼지", description: "돼지는 놀라울 정도로 학습 능력이 뛰어나며, 미로를 빠져나오는 문제 해결 능력이 우수합니다." },
+  { score: 85, animal: "비둘기", description: "비둘기는 훌륭한 길 찾기 능력과 패턴 인식 능력을 가지고 있으며, 추상적인 개념도 이해할 수 있습니다." },
+  { score: 80, animal: "고양이", description: "고양이는 문제 해결 능력이 있으며, 관찰을 통한 학습이 가능합니다." },
+  { score: 75, animal: "다람쥐", description: "다람쥐는 복잡한 공간 기억력과 문제 해결 능력을 가지고 있습니다." },
+  { score: 70, animal: "쥐", description: "쥐는 미로를 학습하고 문제를 해결하는 능력이 뛰어납니다." }
+];
+
+// 가장 가까운 동물 IQ 찾기 함수
+function findClosestAnimalIq(score) {
+  return animalIqComparisons.reduce((closest, current) => {
+    return Math.abs(current.score - score) < Math.abs(closest.score - score) ? current : closest;
+  });
+}
+
 function LoadingFallback() {
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -136,6 +159,9 @@ function IQResultContent() {
   
   // IQ 레벨 찾기
   const iqLevel = iqRanges.find(range => validScore >= range.min && validScore <= range.max);
+  
+  // 가장 가까운 동물 IQ 찾기
+  const closestAnimal = findClosestAnimalIq(validScore);
   
   const [mounted, setMounted] = useState(false);
   
@@ -222,6 +248,43 @@ function IQResultContent() {
               <span>평균 이상</span>
               <span>우수</span>
               <span>매우 우수</span>
+            </div>
+          </div>
+          
+          {/* 동물 IQ 비교 섹션 추가 */}
+          <div className="mb-10 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 p-6 rounded-xl border border-amber-100 dark:border-amber-800">
+            <h3 className="font-bold text-xl mb-4 text-amber-700 dark:text-amber-300">
+              당신의 IQ와 비슷한 동물
+            </h3>
+            
+            <div className="flex flex-col md:flex-row gap-6 items-center">
+              <div className="w-[120px] h-[120px] bg-amber-100 dark:bg-amber-800 rounded-full flex items-center justify-center overflow-hidden relative">
+                <span className="text-5xl">{closestAnimal.animal === "돌고래" ? "🐬" : 
+                                          closestAnimal.animal === "침팬지" ? "🐒" : 
+                                          closestAnimal.animal === "고릴라" ? "🦍" : 
+                                          closestAnimal.animal === "코끼리" ? "🐘" : 
+                                          closestAnimal.animal === "까마귀" ? "🐦" : 
+                                          closestAnimal.animal === "오랑우탄" ? "🦧" : 
+                                          closestAnimal.animal === "돼지" ? "🐷" : 
+                                          closestAnimal.animal === "비둘기" ? "🕊️" : 
+                                          closestAnimal.animal === "고양이" ? "🐱" : 
+                                          closestAnimal.animal === "다람쥐" ? "🐿️" : "🐭"}</span>
+              </div>
+              
+              <div className="flex-1">
+                <div className="flex items-center mb-2">
+                  <span className="text-2xl font-bold text-amber-800 dark:text-amber-200 mr-2">{closestAnimal.animal}</span>
+                  <span className="text-sm bg-amber-200 dark:bg-amber-700 px-2 py-1 rounded-full text-amber-800 dark:text-amber-200">
+                    IQ 약 {closestAnimal.score}
+                  </span>
+                </div>
+                <p className="text-slate-700 dark:text-slate-300">
+                  {closestAnimal.description}
+                </p>
+                <p className="mt-4 text-sm text-amber-600 dark:text-amber-400 italic">
+                  * 동물의 IQ 측정은 직접적이지 않으며, 인간의 척도로 추정한 값입니다.
+                </p>
+              </div>
             </div>
           </div>
           
