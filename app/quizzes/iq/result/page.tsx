@@ -120,8 +120,15 @@ const iqRanges = [
   }
 ];
 
+// 동물 IQ 비교 데이터 인터페이스
+interface AnimalIqComparison {
+  score: number;
+  animal: string;
+  description: string;
+}
+
 // 동물 IQ 비교 데이터
-const animalIqComparisons = [
+const animalIqComparisons: AnimalIqComparison[] = [
   { score: 140, animal: "돌고래", description: "돌고래는 가장 지능이 높은, 인간 이외의 동물로 알려져 있습니다. 복잡한 문제 해결 능력과 도구 사용, 자기 인식을 가지고 있습니다." },
   { score: 130, animal: "침팬지", description: "침팬지는 도구를 사용하고, 언어를 배우며, 심지어 계획을 세우는 등 인간과 매우 유사한 인지 능력을 보입니다." },
   { score: 120, animal: "고릴라", description: "고릴라는 추상적 사고가 가능하며, 문제 해결 능력이 뛰어나고 감정 이해와 표현이 가능합니다." },
@@ -136,7 +143,7 @@ const animalIqComparisons = [
 ];
 
 // 가장 가까운 동물 IQ 찾기 함수
-function findClosestAnimalIq(score) {
+function findClosestAnimalIq(score: number): AnimalIqComparison {
   return animalIqComparisons.reduce((closest, current) => {
     return Math.abs(current.score - score) < Math.abs(closest.score - score) ? current : closest;
   });
