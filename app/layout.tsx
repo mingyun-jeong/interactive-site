@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import Script from 'next/script';
@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   description: '재미있고 몰입감 있는 심리 테스트와 퀴즈를 통해 자신을 발견하고 친구들과 공유해보세요.',
   keywords: 'MBTI, IQ, 테스트, 퀴즈, 심리테스트, 재미, 콘텐츠, Pickly Lab',
   manifest: '/manifest.json',
-  themeColor: '#1e293b'
+}
+
+export const viewport: Viewport = {
+  themeColor: '#1e293b',
 }
 
 export default function RootLayout({
