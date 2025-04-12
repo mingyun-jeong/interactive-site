@@ -31,7 +31,7 @@ export default function Home() {
           <div className="flex justify-center mb-6">
             <div className="relative w-24 h-24">
               <Image 
-                src="/pickly-lab-logo.svg" 
+                src="/logo-image.png" 
                 alt="Pickly Lab Logo" 
                 width={96} 
                 height={96} 
@@ -253,7 +253,7 @@ export default function Home() {
         <footer className="text-center text-slate-500 dark:text-slate-400 mt-16 pt-8 border-t border-slate-200 dark:border-slate-700/50">
           <div className="mb-4">
             <Image 
-              src="/pickly-lab-logo.svg" 
+              src="/logo.png" 
               alt="Pickly Lab Logo" 
               width={40} 
               height={40} 

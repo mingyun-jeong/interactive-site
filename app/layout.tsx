@@ -35,9 +35,8 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
         {/* 파비콘 직접 추가 */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-icon.svg" />
+        <link rel="icon" href="/favicon.png" sizes="any" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         
         <meta name="application-name" content="Pickly Lab" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
