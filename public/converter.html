@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG to PNG Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SVG to PNG Converter</h1>
+        
+        <div>
+            <h2>Favicon (32x32)</h2>
+            <img id="faviconSvg" src="/favicon.svg" width="32" height="32" alt="Favicon SVG">
+            <canvas id="faviconCanvas" width="32" height="32"></canvas>
+            <button onclick="convertToPng('faviconSvg', 'faviconCanvas', 'favicon.ico')">Convert to ICO</button>
+        </div>
+        
+        <div>
+            <h2>Apple Icon (180x180)</h2>
+            <img id="appleSvg" src="/apple-icon.svg" width="180" height="180" alt="Apple Icon SVG">
+            <canvas id="appleCanvas" width="180" height="180"></canvas>
+            <button onclick="convertToPng('appleSvg', 'appleCanvas', 'apple-icon.png')">Convert to PNG</button>
+        </div>
+    </div>
+
+    <script>
+        function convertToPng(imgId, canvasId, filename) {
+            const img = document.getElementById(imgId);
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Draw SVG on canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            // Convert to data URL
+            const dataUrl = canvas.toDataURL('image/png');
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = dataUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // Wait for images to load
+        window.onload = function() {
+            document.getElementById('faviconSvg').onload = function() {
+                const canvas = document.getElementById('faviconCanvas');
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+            };
+            
+            document.getElementById('appleSvg').onload = function() {
+                const canvas = document.getElementById('appleCanvas');
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+            };
+        };
+    </script>
+</body>
+</html> 

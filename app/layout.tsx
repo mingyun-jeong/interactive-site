@@ -1,15 +1,26 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import Script from 'next/script';
 import Navbar from './components/Navbar';
 
-const inter = Inter({ subsets: ["latin"] });
+const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: '원피스 MBTI 테스트 - 당신과 닮은 원피스 캐릭터는?',
-  description: 'MBTI 성격 유형으로 나와 닮은 원피스 캐릭터를 찾아보세요.',
-  keywords: 'MBTI, 원피스, 테스트, 퀴즈, 성격 유형, 애니메이션',
+  title: 'Pickly Lab - 반응을 이끌어내는 콘텐츠 실험실',
+  description: '재미있고 몰입감 있는 심리 테스트와 퀴즈를 통해 자신을 발견하고 친구들과 공유해보세요.',
+  keywords: 'MBTI, IQ, 테스트, 퀴즈, 심리테스트, 재미, 콘텐츠, Pickly Lab',
+  manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' }
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180' }
+    ]
+  },
+  themeColor: '#1e293b'
 }
 
 export default function RootLayout({
@@ -28,8 +39,14 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="beforeInteractive"
         />
+        <meta name="application-name" content="Pickly Lab" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Pickly Lab" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="msapplication-TileColor" content="#1e293b" />
       </head>
-      <body className={inter.className}>
+      <body className={outfit.className}>
         {/* Global Navigation Bar */}
         <Navbar />
         
