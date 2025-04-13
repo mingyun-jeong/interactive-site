@@ -91,6 +91,9 @@ export default function FortunePage() {
           <CardTitle className="text-2xl font-bold text-center">생년월일 정보 입력</CardTitle>
           <CardDescription className="text-center mt-2">
             정확한 사주 분석을 위해 정보를 입력해주세요
+            <div className="mt-2 text-xs text-indigo-600 dark:text-indigo-400 font-medium">
+              * 입력하신 모든 개인정보는 저장되지 않으며, 오직 사주 정보를 확인하는 용도로만 일시적으로 활용됩니다.
+            </div>
           </CardDescription>
         </CardHeader>
         
@@ -229,7 +232,7 @@ export default function FortunePage() {
         <CardFooter className="px-6 py-5 bg-gray-50 dark:bg-gray-800/80 border-t border-gray-100 dark:border-gray-700/50">
           <div className="text-center w-full text-sm text-gray-500 dark:text-gray-400">
             <p>* 이 테스트는 재미로 즐기는 용도로, 실제 사주 분석과는 차이가 있을 수 있습니다.</p>
-            <p>* 입력하신 개인정보는 테스트 목적으로만 사용됩니다.</p>
+            <p>* 입력하신 개인정보는 서버에 저장되지 않으며, 오직 사주 정보를 확인하는 용도로만 사용됩니다.</p>
           </div>
         </CardFooter>
       </Card>
