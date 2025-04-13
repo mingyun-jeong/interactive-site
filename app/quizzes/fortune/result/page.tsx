@@ -17,6 +17,7 @@ import { Separator } from '@/components/ui/separator';
 import { UserBirthInfo, FortuneResult } from '@/types';
 import { getFortuneTelling } from '@/lib/deepseek';
 import { incrementVisitorCount } from '@/lib/visitors';
+import { trackPageView, trackResultView, trackResultShare } from '@/lib/analytics';
 import { Skeleton } from '@/components/ui/skeleton';
 import Markdown from 'react-markdown';
 
@@ -65,6 +66,9 @@ function FortuneResultContent() {
           console.error('방문자 수 증가 실패:', error);
         }
 
+        // 페이지 조회 이벤트 트래킹 
+        trackPageView('fortune', 'Fortune Result Page');
+
         // URL에서 파라미터 가져오기
         const name = searchParams.get('name') || '';
         const birthYear = parseInt(searchParams.get('year') || '0');
@@ -93,6 +97,10 @@ function FortuneResultContent() {
         // 포춘 생성
         const result = await getFortuneTelling(info, question);
         setFortuneResult(result);
+        
+        // 결과 조회 이벤트 트래킹
+        trackResultView('fortune', `BirthInfo: ${birthYear}-${birthMonth}-${birthDay}, Gender: ${gender}`);
+        
         setLoading(false);
       } catch (error) {
         console.error('Error generating fortune:', error);
@@ -134,6 +142,8 @@ ${cleanMarkdown(fortuneResult.fortune).replace(/\n\n/g, '\n')}
 `;
 
     navigator.clipboard.writeText(fortuneText).then(() => {
+      // 결과 공유 이벤트 트래킹
+      trackResultShare('fortune', 'clipboard');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -149,6 +159,8 @@ ${cleanMarkdown(fortuneResult.fortune).replace(/\n\n/g, '\n')}
           text: `AI가 분석한 ${userInfo.name || '사용자'}님의 사주를 확인해보세요!`,
           url: window.location.href,
         });
+        // 결과 공유 이벤트 트래킹
+        trackResultShare('fortune', 'native_share');
       } catch (error) {
         console.error('Error sharing:', error);
       }

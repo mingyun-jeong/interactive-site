@@ -8,6 +8,7 @@ import MbtiQuestion from '@/components/MbtiQuestion';
 import { Button } from '@/components/ui/button';
 import AdBanner from '@/app/components/AdBanner';
 import ShareButtons from '@/components/ShareButtons';
+import { trackPageView, trackQuizStart, trackQuizComplete } from '@/lib/analytics';
 import { Metadata } from 'next';
 
 // MBTI 질문 목록
@@ -140,11 +141,21 @@ const MBTIQuiz = () => {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [loading, setLoading] = useState(false);
 
+  // 페이지 로드 시 이벤트 트래킹
+  useEffect(() => {
+    trackPageView('mbti', 'MBTI Quiz Page');
+  }, []);
+
   const progressPercentage = (Object.keys(answers).length / questions.length) * 100;
 
   const handleAnswer = (value: string) => {
     const newAnswers = { ...answers, [currentQuestionIndex]: value };
     setAnswers(newAnswers);
+    
+    // 첫 번째 질문에 답변 시 퀴즈 시작 이벤트 트래킹
+    if (currentQuestionIndex === 0) {
+      trackQuizStart('mbti', 'MBTI Quiz');
+    }
     
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -173,6 +184,9 @@ const MBTIQuiz = () => {
       counts.T > counts.F ? 'T' : 'F',
       counts.J > counts.P ? 'J' : 'P'
     ].join('');
+    
+    // 퀴즈 완료 이벤트 트래킹
+    trackQuizComplete('mbti', 'MBTI Quiz', Object.keys(answers).length);
     
     setTimeout(() => {
       router.push(`/quizzes/mbti/result?type=${type}`);

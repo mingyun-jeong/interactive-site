@@ -5,6 +5,7 @@ import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Share2, Twitter, Facebook, Repeat2 } from 'lucide-react';
+import { trackPageView, trackResultView, trackResultShare } from '@/lib/analytics';
 
 // 원피스 캐릭터 MBTI 데이터
 const mbtiData = {
@@ -174,6 +175,10 @@ const mbtiData = {
 function ShareButtons({ title, hashtags }: { title: string, hashtags: string[] }) {
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
   
+  const handleShare = (platform: string) => {
+    trackResultShare('mbti', platform);
+  };
+  
   return (
     <div className="flex flex-wrap justify-center gap-3">
       <a 
@@ -181,6 +186,7 @@ function ShareButtons({ title, hashtags }: { title: string, hashtags: string[] }
         target="_blank"
         rel="noopener noreferrer"
         className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-full flex items-center"
+        onClick={() => handleShare('twitter')}
       >
         <Twitter className="w-5 h-5 mr-2" />
         <span>트위터</span>
@@ -190,6 +196,7 @@ function ShareButtons({ title, hashtags }: { title: string, hashtags: string[] }
         target="_blank"
         rel="noopener noreferrer"
         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full flex items-center"
+        onClick={() => handleShare('facebook')}
       >
         <Facebook className="w-5 h-5 mr-2" />
         <span>페이스북</span>
@@ -198,7 +205,10 @@ function ShareButtons({ title, hashtags }: { title: string, hashtags: string[] }
         onClick={() => {
           if (navigator.clipboard) {
             navigator.clipboard.writeText(shareUrl)
-              .then(() => alert('URL이 클립보드에 복사되었습니다!'))
+              .then(() => {
+                alert('URL이 클립보드에 복사되었습니다!');
+                handleShare('url_copy');
+              })
               .catch(err => console.error('Could not copy URL: ', err));
           }
         }}
@@ -221,7 +231,13 @@ function MbtiResultContent() {
   
   useEffect(() => {
     setMounted(true);
-  }, []);
+    
+    // 결과 페이지 조회 이벤트 트래킹
+    if (mbtiType) {
+      trackPageView('mbti', 'MBTI Result Page');
+      trackResultView('mbti', mbtiType);
+    }
+  }, [mbtiType]);
   
   if (!mounted) {
     return (

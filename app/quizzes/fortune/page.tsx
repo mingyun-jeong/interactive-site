@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { UserBirthInfo } from '@/types';
 import { incrementVisitorCount } from '@/lib/visitors';
+import { trackPageView, trackQuizStart, trackQuizComplete } from '@/lib/analytics';
 
 export default function FortunePage() {
   const router = useRouter();
@@ -24,6 +25,17 @@ export default function FortunePage() {
   });
   const [customQuestion, setCustomQuestion] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // 페이지 로드 시 이벤트 트래킹
+  useEffect(() => {
+    // 페이지 조회 이벤트 트래킹
+    trackPageView('fortune', 'Fortune Page');
+    
+    // 방문자 카운트 증가 (페이지 로드 시 한 번만)
+    incrementVisitorCount('fortune').catch((error) => {
+      console.error('방문자 카운트 증가 실패:', error);
+    });
+  }, []);
 
   // Generate year options from 1950 to current year
   const years = Array.from({ length: new Date().getFullYear() - 1949 }, (_, i) => 1950 + i);
@@ -39,8 +51,8 @@ export default function FortunePage() {
     setIsSubmitting(true);
     
     try {
-      // Increment visitor count
-      await incrementVisitorCount('fortune');
+      // 분석 시작 이벤트 트래킹
+      trackQuizStart('fortune', 'Fortune Analysis');
       
       // Prepare params
       const params = new URLSearchParams();
@@ -51,6 +63,9 @@ export default function FortunePage() {
       if (userInfo.birthHour !== undefined) params.append('hour', userInfo.birthHour.toString());
       params.append('gender', userInfo.gender);
       if (customQuestion) params.append('question', encodeURIComponent(customQuestion));
+      
+      // 분석 완료 이벤트 트래킹
+      trackQuizComplete('fortune', 'Fortune Analysis');
       
       // Navigate to result page
       router.push(`/quizzes/fortune/result?${params.toString()}`);

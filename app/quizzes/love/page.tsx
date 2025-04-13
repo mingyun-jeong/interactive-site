@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
 import { incrementVisitorCount } from '@/lib/visitors';
+import { trackPageView, trackQuizStart, trackQuizComplete } from '@/lib/analytics';
 
 // 타입 정의
 interface Option {
@@ -165,9 +166,13 @@ export default function LoveTest() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [typeCounts, setTypeCounts] = useState(initialTypeCounts);
   const [mounted, setMounted] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
   
   useEffect(() => {
     setMounted(true);
+    
+    // 페이지 조회 이벤트 트래킹
+    trackPageView('love', 'Love Quiz Page');
     
     // 브라우저 환경에서만 실행
     if (typeof window !== 'undefined') {
@@ -185,6 +190,10 @@ export default function LoveTest() {
   const handleGenderSelect = (selected: 'male' | 'female') => {
     setGender(selected);
     setStep('questions');
+    
+    // 성별 선택 시 퀴즈 시작 이벤트 트래킹
+    trackQuizStart('love', 'Love Quiz');
+    setQuizStarted(true);
   };
   
   const handleOptionSelect = (type: string) => {
@@ -199,12 +208,17 @@ export default function LoveTest() {
     const newAnswers = [...answers, type];
     setAnswers(newAnswers);
     
-    // 다음 질문으로 이동 또는 결과 페이지로 이동
+    // 다음 질문으로 이동 또는 결과 계산
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // 결과 계산
+      // 마지막 질문이면 결과 계산
       const result = calculateResult(newTypeCounts);
+      
+      // 퀴즈 완료 이벤트 트래킹
+      trackQuizComplete('love', 'Love Quiz');
+      
+      // 결과 페이지로 이동
       router.push(`/quizzes/love/result?type=${result}&gender=${gender}`);
     }
   };

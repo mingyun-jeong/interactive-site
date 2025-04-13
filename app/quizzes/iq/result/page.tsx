@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Brain, ChevronLeft, Share2, Twitter, Facebook, Repeat2 } from "lucide-react";
 import ShareButtons from "@/components/ShareButtons";
 import Image from "next/image";
+import { trackPageView, trackResultView, trackResultShare } from '@/lib/analytics';
 
 // IQ 점수 해석 데이터
 const iqRanges = [
@@ -173,7 +174,16 @@ function IQResultContent() {
   
   useEffect(() => {
     setMounted(true);
-  }, []);
+    
+    // 결과 페이지 조회 이벤트 트래킹
+    trackPageView('iq', 'IQ Result Page');
+    trackResultView('iq', `IQ Score: ${validScore}`);
+  }, [validScore]);
+  
+  // 공유 이벤트 트래킹 함수
+  const handleShare = (platform: string) => {
+    trackResultShare('iq', platform);
+  };
   
   if (!mounted) {
     return <LoadingFallback />;

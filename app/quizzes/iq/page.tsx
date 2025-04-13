@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight, Brain, Users } from "lucide-react";
 import { incrementVisitorCount } from "@/lib/visitors";
+import { trackPageView, trackQuizStart, trackQuizComplete } from '@/lib/analytics';
 
 // Option type definition
 interface QuizOption {
@@ -160,10 +161,14 @@ export default function IQTest() {
   const [answers, setAnswers] = useState<{[key: number]: string}>({});
   const [score, setScore] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
   
   // 단일 useEffect로 통합
   useEffect(() => {
     setMounted(true);
+    
+    // 페이지 조회 이벤트 트래킹
+    trackPageView('iq', 'IQ Quiz Page');
     
     // 브라우저 환경에서만 실행
     if (typeof window !== 'undefined') {
@@ -179,6 +184,12 @@ export default function IQTest() {
   }, []);
   
   const handleAnswer = (questionId: number, value: string) => {
+    // 첫 번째 문제 답변 시 퀴즈 시작 이벤트 트래킹
+    if (!quizStarted) {
+      trackQuizStart('iq', 'IQ Quiz');
+      setQuizStarted(true);
+    }
+    
     // 현재 답변 저장
     setAnswers({
       ...answers,
@@ -199,6 +210,10 @@ export default function IQTest() {
       // 마지막 문제인 경우 결과 페이지로 이동
       setTimeout(() => {
         const iqScore = calculateIQ();
+        
+        // 퀴즈 완료 이벤트 트래킹
+        trackQuizComplete('iq', 'IQ Quiz', iqScore);
+        
         router.push(`/quizzes/iq/result?score=${iqScore}`);
       }, 500);
     }

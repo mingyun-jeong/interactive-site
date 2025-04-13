@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, Share2, Twitter, Facebook, Repeat2 } from 'lucide-react';
 import { incrementVisitorCount } from '@/lib/visitors';
+import { trackPageView, trackResultView, trackResultShare } from '@/lib/analytics';
 
 // 결과 유형 인터페이스
 interface ResultType {
@@ -171,6 +172,10 @@ function ResultContent() {
   useEffect(() => {
     setMounted(true);
     
+    // 결과 페이지 조회 이벤트 트래킹
+    trackPageView('love', 'Love Result Page');
+    trackResultView('love', `Type: ${type}, Gender: ${gender}`);
+    
     // 브라우저 환경에서만 실행
     if (typeof window !== 'undefined') {
       try {
@@ -182,9 +187,12 @@ function ResultContent() {
         // 예외 처리가 되어도 앱이 계속 작동
       }
     }
-  }, []);
+  }, [type, gender]);
   
   const handleShare = () => {
+    // 공유 이벤트 트래킹
+    trackResultShare('love', 'native_share');
+    
     if (navigator.share) {
       navigator.share({
         title: '내 K-드라마 연애 성향 테스트 결과',
@@ -194,7 +202,10 @@ function ResultContent() {
     } else {
       // 클립보드에 복사
       navigator.clipboard.writeText(window.location.href)
-        .then(() => alert('링크가 클립보드에 복사되었습니다!'))
+        .then(() => {
+          alert('링크가 클립보드에 복사되었습니다!');
+          trackResultShare('love', 'clipboard');
+        })
         .catch(error => console.error('클립보드 복사 실패:', error));
     }
   };
