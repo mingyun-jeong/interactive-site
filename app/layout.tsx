@@ -26,10 +26,10 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         {/* Google AdSense 메타 태그 */}
-        <meta name="google-adsense-account" content="ca-pub-6951210541539723" />
+        <meta name="google-adsense-account" content="ca-pub-485458818" />
         <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6951210541539723"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-485458818"
           crossOrigin="anonymous"
           strategy="beforeInteractive"
         />
@@ -56,7 +56,7 @@ export default function RootLayout({
         {/* Google Analytics */}
         <Script 
           strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-G3NYK03GSD`}
+          src={`https://www.googletagmanager.com/gtag/js?id=G-FNLDN2VL56`}
         />
         <Script 
           id="google-analytics"
@@ -66,7 +66,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-G3NYK03GSD');
+            gtag('config', 'G-FNLDN2VL56');
           `}
         </Script>
       </body>

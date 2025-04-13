@@ -134,7 +134,7 @@ export default function Home() {
               <div className="h-full bg-white dark:bg-slate-800/80 rounded-2xl shadow-sm overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 border border-slate-100 dark:border-slate-700/50">
                 <div className="relative h-56 bg-gradient-to-r from-purple-500 via-violet-500 to-purple-600 flex items-center justify-center p-6">
                   <div className="absolute inset-0 bg-black/5"></div>
-                  <span className="relative text-4xl font-bold text-white">사주</span>
+                  <span className="relative text-4xl font-bold text-white">AI 사주</span>
                   <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-2 py-1 rounded-full">
                     NEW
                   </div>

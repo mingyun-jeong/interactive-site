@@ -108,6 +108,19 @@ export default function Navbar() {
             >
               IQ 테스트
             </Link>
+            <Link 
+              href="/quizzes/fortune" 
+              className={`${scrolled 
+                ? isActive("/quizzes/fortune") 
+                  ? "text-purple-600 dark:text-purple-400 font-medium" 
+                  : "text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400" 
+                : isActive("/quizzes/fortune")
+                  ? "text-white font-medium"
+                  : "text-white/80 hover:text-white"
+              } transition-colors`}
+            >
+              AI 사주
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -159,6 +172,16 @@ export default function Navbar() {
               }`}
             >
               IQ 테스트
+            </Link>
+            <Link
+              href="/quizzes/fortune"
+              className={`block px-3 py-2 rounded-md ${
+                isActive("/quizzes/fortune")
+                  ? "bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 font-medium"
+                  : "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              AI 사주
             </Link>
           </div>
         </div>

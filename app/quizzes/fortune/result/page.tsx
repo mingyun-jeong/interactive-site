@@ -39,8 +39,9 @@ function LoadingComponent() {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 dark:border-indigo-400"></div>
           </div>
         </div>
-        <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">사주를 분석하고 있습니다</h3>
-        <p className="text-gray-600 dark:text-gray-300">당신만을 위한 상세한 사주 분석이 준비 중입니다. 잠시만 기다려주세요...</p>
+        <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">AI가 사주를 분석중입니다</h3>
+        <p className="text-gray-600 dark:text-gray-300">당신만을 위한 상세한 사주 분석이 준비 중입니다.</p>
+        <p className="text-gray-600 dark:text-gray-300">잠시만 기다려주세요...</p>
       </div>
     </div>
   );
@@ -106,13 +107,28 @@ function FortuneResultContent() {
     initPage();
   }, [searchParams]);
 
+  // 마크다운 내용에서 볼드 마크(**) 제거하는 함수
+  const cleanMarkdown = (markdown: string) => {
+    return markdown
+      .replace(/\*\*/g, '') // 볼드 마크(**) 제거
+      .replace(/#{1,6} /g, '') // 공유 시 헤더 마크(#) 제거
+  };
+
+  // 포춘 결과의 마크다운에 ID 추가하기
+  const addIdsToMarkdown = (markdown: string) => {
+    return markdown.replace(/^## (.+)$/gm, (match, title) => {
+      const id = title.replace(/\s+/g, '-').toLowerCase();
+      return `<h2 id="${id}" class="scroll-mt-24">${title}</h2>`;
+    });
+  };
+
   const handleCopyToClipboard = () => {
     if (!fortuneResult?.fortune || !userInfo) return;
 
     const fortuneText = `
 🔮 ${userInfo.name || '사용자'}님의 AI 사주 분석 결과 🔮
 
-${fortuneResult.fortune.replace(/#{1,6} /g, '').replace(/\*\*/g, '').replace(/\n\n/g, '\n')}
+${cleanMarkdown(fortuneResult.fortune).replace(/\n\n/g, '\n')}
 
 🔗 나도 해보기: ${typeof window !== 'undefined' ? window.location.origin : ''}/quizzes/fortune
 `;
@@ -199,14 +215,6 @@ ${fortuneResult.fortune.replace(/#{1,6} /g, '').replace(/\*\*/g, '').replace(/\n
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  };
-
-  // 포춘 결과의 마크다운에 ID 추가하기
-  const addIdsToMarkdown = (markdown: string) => {
-    return markdown.replace(/^## (.+)$/gm, (match, title) => {
-      const id = title.replace(/\s+/g, '-').toLowerCase();
-      return `<h2 id="${id}" class="scroll-mt-24">${title}</h2>`;
-    });
   };
 
   const decoratedFortune = addIdsToMarkdown(fortuneResult.fortune);
@@ -312,6 +320,29 @@ ${fortuneResult.fortune.replace(/#{1,6} /g, '').replace(/\*\*/g, '').replace(/\n
                 </div>
               </div>
             )}
+
+            {/* 모바일용 스크롤 가능한 목차 */}
+            {sections.length > 0 && (
+              <div className="md:hidden mb-6 overflow-hidden">
+                <div className="overflow-x-auto pb-2 hide-scrollbar">
+                  <div className="flex whitespace-nowrap gap-2 px-1">
+                    {sections.map((section, index) => (
+                      <button
+                        key={index}
+                        onClick={() => scrollToSection(section)}
+                        className={`px-3 py-1.5 text-xs rounded-full transition-all flex-shrink-0 ${
+                          activeSection === section
+                            ? "bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 font-medium"
+                            : "text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                        }`}
+                      >
+                        {section}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 결과 카드 */}
@@ -338,7 +369,13 @@ ${fortuneResult.fortune.replace(/#{1,6} /g, '').replace(/\*\*/g, '').replace(/\n
             </CardHeader>
             <CardContent className="pt-8 pb-6 px-8">
               <div className="prose prose-lg prose-indigo dark:prose-invert max-w-none prose-headings:scroll-mt-24 prose-headings:font-bold prose-headings:relative prose-h2:pt-6 prose-h2:border-t prose-h2:border-gray-100 dark:prose-h2:border-gray-800 prose-h2:first:border-0 prose-h2:first:pt-0">
-                <div dangerouslySetInnerHTML={{ __html: decoratedFortune.replace(/\n/g, '<br />') }} />
+                <div 
+                  dangerouslySetInnerHTML={{ 
+                    __html: decoratedFortune
+                      .replace(/\n/g, '<br />')
+                      .replace(/\*\*/g, '<span class="font-medium text-indigo-700 dark:text-indigo-400">') + '</span>'
+                  }} 
+                />
               </div>
             </CardContent>
             <CardFooter className="flex flex-col sm:flex-row gap-4 pt-2 pb-8 px-8 border-t border-gray-100 dark:border-gray-800">
@@ -372,10 +409,10 @@ ${fortuneResult.fortune.replace(/#{1,6} /g, '').replace(/\*\*/g, '').replace(/\n
                         <path fillRule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clipRule="evenodd" />
                       </svg>
                     </span>
-                    프리미엄 사주 분석 서비스
+                    프리미엄 사주 분석 서비스 (준비중)
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4">
-                    더 상세한 사주 분석과 운세, 인생 주요 시기별 특징, 직업 적성, 금전운 등을 확인하세요.
+                    더 상세한 사주 분석 서비스를 준비 중입니다. 곧 오픈 예정이니 기대해 주세요!
                   </p>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 text-sm">
                     <li className="flex items-center text-gray-700 dark:text-gray-300">
@@ -413,9 +450,12 @@ ${fortuneResult.fortune.replace(/#{1,6} /g, '').replace(/\*\*/g, '').replace(/\n
                   </ul>
                 </div>
                 <div className="flex-shrink-0">
-                  <Button className="w-full md:w-auto py-6 px-8 text-base font-medium rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all group">
-                    <span>프리미엄 구독하기</span>
-                    <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+                  <Button 
+                    className="w-full md:w-auto py-6 px-8 text-base font-medium rounded-xl bg-gradient-to-r from-gray-400 to-gray-500 shadow-md transition-all group cursor-not-allowed opacity-70"
+                    disabled={true}
+                  >
+                    <span>준비중</span>
+                    <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>
               </div>
@@ -501,6 +541,18 @@ ${fortuneResult.fortune.replace(/#{1,6} /g, '').replace(/\*\*/g, '').replace(/\n
           </div>
         </div>
       </div>
+
+      {/* 스타일 관련 CSS 추가 */}
+      <style jsx global>{`
+        /* 가로 스크롤바 숨기기 */
+        .hide-scrollbar {
+          -ms-overflow-style: none; /* IE and Edge */
+          scrollbar-width: none; /* Firefox */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none; /* Chrome, Safari, Opera */
+        }
+      `}</style>
     </div>
   );
 } 
