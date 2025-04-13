@@ -2,13 +2,31 @@ import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { UserBirthInfo, FortuneResult } from '@/types';
 
-// OpenAI API 클라이언트 초기화 (서버 측에서만 실행)
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '',
-});
+// OpenAI API 키 확인
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+// OpenAI API 클라이언트 초기화 (API 키가 있을 때만)
+let openai: OpenAI | null = null;
+if (OPENAI_API_KEY) {
+  openai = new OpenAI({
+    apiKey: OPENAI_API_KEY,
+  });
+}
 
 export async function POST(request: NextRequest) {
   try {
+    // API 키 확인
+    if (!OPENAI_API_KEY || !openai) {
+      console.error('OpenAI API key is missing');
+      return NextResponse.json(
+        { 
+          fortune: '',
+          error: 'OpenAI API 키가 설정되지 않았습니다. 관리자에게 문의하세요.' 
+        }, 
+        { status: 500 }
+      );
+    }
+
     // 요청 바디 파싱
     const body = await request.json();
     const { userInfo, customQuestion }: { userInfo: UserBirthInfo; customQuestion?: string } = body;
@@ -56,26 +74,39 @@ ${customQuestion ? `사용자의 특별 질문: ${customQuestion}` : '일반적�
 사주에 관한 전통적인 동양 철학과 현대적 해석을 조화롭게 사용하세요.
 `;
 
-    // OpenAI API 호출
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: '당신은 사주와 운세 분석에 전문적인 지식을 갖춘 AI 분석가입니다. 사용자의 생년월일과 정보를 바탕으로 상세하고 개인화된 사주 분석을 제공합니다. 답변에서 강조를 위한 볼드 처리(**)는 사용하지 마세요.'
-        },
-        {
-          role: 'user',
-          content: prompt
-        }
-      ],
-      temperature: 0.7,
-      max_tokens: 2000,
-    });
+    try {
+      // OpenAI API 호출
+      console.log(`Calling OpenAI API for user: ${userName}, birth: ${birthYear}-${birthMonth}-${birthDay}`);
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: '당신은 사주와 운세 분석에 전문적인 지식을 갖춘 AI 분석가입니다. 사용자의 생년월일과 정보를 바탕으로 상세하고 개인화된 사주 분석을 제공합니다. 답변에서 강조를 위한 볼드 처리(**)는 사용하지 마세요.'
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 2000,
+      });
 
-    // 응답 반환
-    const fortune = response.choices[0]?.message?.content || '';
-    return NextResponse.json({ fortune });
+      // 응답 반환
+      const fortune = response.choices[0]?.message?.content || '';
+      console.log('OpenAI API response received successfully');
+      return NextResponse.json({ fortune });
+    } catch (apiError) {
+      console.error('OpenAI API call failed:', apiError);
+      return NextResponse.json(
+        { 
+          fortune: '',
+          error: 'OpenAI API 호출 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.' 
+        }, 
+        { status: 500 }
+      );
+    }
   } catch (error) {
     console.error('Fortune API error:', error);
     return NextResponse.json(
