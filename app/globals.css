@@ -77,3 +77,96 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Animation for blobs on fortune result page */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* Enhance markdown styling */
+.prose h2 {
+  position: relative;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose h2::before {
+  content: '';
+  position: absolute;
+  top: -1rem;
+  left: 0;
+  width: 3rem;
+  height: 3px;
+  background: linear-gradient(to right, hsl(var(--primary)), transparent);
+  border-radius: 3px;
+}
+
+.prose strong {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.prose ul {
+  list-style-type: none;
+  padding-left: 1.5rem;
+}
+
+.prose ul li {
+  position: relative;
+  padding-left: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose ul li::before {
+  content: '•';
+  position: absolute;
+  left: -1rem;
+  color: hsl(var(--primary));
+  font-weight: bold;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+  line-height: 1.75;
+}
