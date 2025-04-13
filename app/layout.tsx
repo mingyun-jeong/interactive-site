@@ -28,10 +28,11 @@ export default function RootLayout({
         {/* Google AdSense 메타 태그 */}
         <meta name="google-adsense-account" content="ca-pub-485458818" />
         <Script
+          id="google-adsense"
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-485458818"
           crossOrigin="anonymous"
-          strategy="beforeInteractive"
+          strategy="lazyOnload"
         />
         {/* 파비콘 직접 추가 */}
         <link rel="icon" href="/favicon.png" sizes="any" />

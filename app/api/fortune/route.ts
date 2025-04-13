@@ -13,6 +13,26 @@ if (OPENAI_API_KEY) {
   });
 }
 
+// 사주 결과를 캐싱하기 위한 객체
+interface FortuneCache {
+  [key: string]: {
+    fortune: string;
+    timestamp: number;
+  }
+}
+
+// 메모리 캐시 (서버 재시작 시 초기화됨)
+const fortuneCache: FortuneCache = {};
+
+// 캐시 유효 시간 (7일, 밀리초 단위)
+const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+
+// 캐시 키 생성 함수
+function createCacheKey(userInfo: UserBirthInfo, customQuestion?: string): string {
+  const { birthYear, birthMonth, birthDay, birthHour, gender } = userInfo;
+  return `${birthYear}-${birthMonth}-${birthDay}-${birthHour || 'none'}-${gender}-${customQuestion || 'none'}`;
+}
+
 export async function POST(request: NextRequest) {
   try {
     // API 키 확인
@@ -36,6 +56,16 @@ export async function POST(request: NextRequest) {
         { error: '필요한 정보가 누락되었습니다.' },
         { status: 400 }
       );
+    }
+
+    // 캐시 키 생성
+    const cacheKey = createCacheKey(userInfo, customQuestion);
+    
+    // 캐시 확인
+    const now = Date.now();
+    if (fortuneCache[cacheKey] && (now - fortuneCache[cacheKey].timestamp) < CACHE_TTL) {
+      console.log(`Cache hit for: ${userInfo.name || '사용자'}, birth: ${userInfo.birthYear}-${userInfo.birthMonth}-${userInfo.birthDay}`);
+      return NextResponse.json({ fortune: fortuneCache[cacheKey].fortune });
     }
 
     // 현재 년도 가져오기
@@ -82,7 +112,7 @@ ${customQuestion ? `사용자의 특별 질문: ${customQuestion}` : '일반적�
         messages: [
           {
             role: 'system',
-            content: '당신은 사주와 운세 분석에 전문적인 지식을 갖춘 AI 분석가입니다. 사용자의 생년월일과 정보를 바탕으로 상세하고 개인화된 사주 분석을 제공합니다. 답변에서 강조를 위한 볼드 처리(**)는 사용하지 마세요.'
+            content: '당신은 사주와 운세 분석에 전문적인 지식을 갖춘 AI 분석가입니다. 사용자의 생년월일과 정보를 바탕으로 상세하고 개인화된 사주 분석을 제공합니다. 답변에서 강조를 위한 볼드 처리(**)는 사용하지 마세요. 마크다운 형식으로 내려주세요.'
           },
           {
             role: 'user',
@@ -96,6 +126,13 @@ ${customQuestion ? `사용자의 특별 질문: ${customQuestion}` : '일반적�
       // 응답 반환
       const fortune = response.choices[0]?.message?.content || '';
       console.log('OpenAI API response received successfully');
+      
+      // 결과 캐싱
+      fortuneCache[cacheKey] = {
+        fortune: fortune,
+        timestamp: Date.now()
+      };
+      
       return NextResponse.json({ fortune });
     } catch (apiError) {
       console.error('OpenAI API call failed:', apiError);
